@@ -5,19 +5,19 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
-import fr.jerome.mario.Mario;
+import fr.jerome.mario.MarioGame;
 
 /**
  * Created by jerome on 01/10/14.
  */
 public class IntroScreen implements Screen {
 
-    final Mario game;
+    final MarioGame game;
     OrthographicCamera camera;
 
     Texture splashImage;
 
-    public IntroScreen(final Mario gam, OrthographicCamera cam) {
+    public IntroScreen(final MarioGame gam, OrthographicCamera cam) {
 
         game = gam;
         camera = cam;

@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-import fr.jerome.mario.Mario;
+import fr.jerome.mario.MarioGame;
 
 /**
  * Menu principal du jeux !
@@ -13,10 +13,10 @@ import fr.jerome.mario.Mario;
  */
 public class MainMenuScreen implements Screen {
 
-    final Mario game;
+    final MarioGame game;
     OrthographicCamera camera;
 
-    public MainMenuScreen(final Mario gam, OrthographicCamera cam) {
+    public MainMenuScreen(final MarioGame gam, OrthographicCamera cam) {
 
         game = gam;
         camera = cam;
@@ -29,12 +29,12 @@ public class MainMenuScreen implements Screen {
 
 
         game.batch.begin();
-        game.font.draw(game.batch, "Welcome to the new (old) Supe Mario Bros !!! ", 100, 150);
+        game.font.draw(game.batch, "Welcome to the new (old) Supe MarioGame Bros !!! ", 100, 150);
         game.font.draw(game.batch, "Tap anywhere to begin!", 100, 100);
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen(game, camera));
             dispose();
         }
     }

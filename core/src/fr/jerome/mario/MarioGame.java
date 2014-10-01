@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import fr.jerome.mario.screens.IntroScreen;
-import fr.jerome.mario.screens.MainMenuScreen;
 
-public class Mario extends Game {
+public class MarioGame extends Game {
+
+    private static final float CAMERA_WIDTH = 20f;
+    private static final float CAMERA_HEIGHT = 15f;
 
     public OrthographicCamera camera;
     public SpriteBatch batch;
@@ -17,8 +19,9 @@ public class Mario extends Game {
 	@Override
 	public void create () {
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
+//        camera.setToOrtho(false, 800, 480);
+        camera.position.set(10, 7.5f, 0);
         camera.update();
 
         batch = new SpriteBatch();
