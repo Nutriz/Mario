@@ -1,4 +1,4 @@
-package fr.jerome.mario.models;
+package fr.jerome.mario.model;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
