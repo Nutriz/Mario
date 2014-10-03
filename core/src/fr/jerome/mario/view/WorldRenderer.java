@@ -15,9 +15,9 @@ import fr.jerome.mario.model.World;
  */
 public class WorldRenderer {
 
-    // En nombre d'unité
-    private static final float CAMERA_WIDTH = 20;
-    private static final float CAMERA_HEIGHT = 15;
+    // Dimensions de la caméra
+    private static final float CAMERA_WIDTH = 16*20;
+    private static final float CAMERA_HEIGHT = 16*15;
 
     private int width;
     private int height;

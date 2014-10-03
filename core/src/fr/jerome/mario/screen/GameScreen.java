@@ -12,6 +12,7 @@ import fr.jerome.mario.MarioGame;
 import fr.jerome.mario.model.Mario;
 import fr.jerome.mario.model.World;
 import fr.jerome.mario.view.WorldRenderer;
+import sun.rmi.runtime.Log;
 
 /**
  * Ecran de jeu
@@ -19,13 +20,15 @@ import fr.jerome.mario.view.WorldRenderer;
  */
 public class GameScreen implements Screen {
 
-    private Mario mario;
     private World world;
     private WorldRenderer worldRenderer;
 
-    public GameScreen() {
+    private int width;
+    private int height;
 
-        mario = new Mario(new Vector2(3, 2));
+    @Override
+    public void show() {
+
         world = new World();
         worldRenderer = new WorldRenderer(world);
     }
@@ -42,12 +45,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void show() {
-
+        worldRenderer.setSize(width, height);
+        this.width = width;
+        this.height = height;
     }
 
     @Override

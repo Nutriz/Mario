@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -16,13 +17,15 @@ import com.badlogic.gdx.utils.Array;
  */
 public class World {
 
+    private Mario mario;
+
     private Array<Block> blocks = new Array<Block>();
     private TiledMap tiledMap;
 
     public World() {
 
+        mario = new Mario(new Vector2(3, 2));
         tiledMap = new TmxMapLoader().load("Maps/map_test.tmx");
-
     }
 
     public Array<Block> getBlocks() {
