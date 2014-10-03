@@ -12,21 +12,21 @@ public class Block {
     static final float SIZE = 1f;
 
     Vector2 position = new Vector2();
-    Rectangle bounds = new Rectangle();
+    Rectangle rect = new Rectangle();
 
     public Block(Vector2 pos) {
         this.position = pos;
-        this.bounds.width = SIZE;
-        this.bounds.height = SIZE;
-        this.bounds.x = this.position.x;
-        this.bounds.y = this.position.y;
+        this.rect.width = SIZE;
+        this.rect.height = SIZE;
+        this.rect.x = this.position.x;
+        this.rect.y = this.position.y;
     }
 
     public Vector2 getPosition() {
         return position;
     }
 
-    public Rectangle getBounds() {
-        return bounds;
+    public Rectangle getRect() {
+        return rect;
     }
 }

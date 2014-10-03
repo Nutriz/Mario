@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="15" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="Decors" tilewidth="16" tileheight="16">
+  <image source="../Tilesets/Decors.png" width="528" height="448"/>
+ </tileset>
+ <layer name="ciel" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzbycTAsHMUj+JRPIpH8SiG4pEGAJTXHPI=
+  </data>
+ </layer>
+ <layer name="obstacles" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjILhAZSgeCDspKfd6HYOhL+HEwAAjjYBmQ==
+  </data>
+ </layer>
+ <layer name="nuages" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBj84DoTA8MNIL7JRB21+NQgy/0A4p9A/IsIe4lRi08NKXaNglEwCkbBKKAeAAC1rxX9
+  </data>
+ </layer>
+ <layer name="caisses" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjALaA0kseBSMgsEAAElbAH4=
+  </data>
+ </layer>
+ <layer name="sol" width="30" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAoQgHGEYQAjoAA9
+  </data>
+ </layer>
+</map>

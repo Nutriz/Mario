@@ -20,6 +20,7 @@ import sun.rmi.runtime.Log;
  */
 public class GameScreen implements Screen {
 
+    private Mario mario;
     private World world;
     private WorldRenderer worldRenderer;
 
@@ -29,8 +30,9 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
+        mario = new Mario(new Vector2(3, 2));
         world = new World();
-        worldRenderer = new WorldRenderer(world);
+        worldRenderer = new WorldRenderer(world, mario);
     }
 
     @Override
