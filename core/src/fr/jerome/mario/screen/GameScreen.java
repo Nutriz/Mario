@@ -5,22 +5,22 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Logger;
 
-import fr.jerome.mario.MarioGame;
+import fr.jerome.mario.controller.MarioController;
 import fr.jerome.mario.model.Mario;
 import fr.jerome.mario.model.World;
 import fr.jerome.mario.view.WorldRenderer;
-import sun.rmi.runtime.Log;
 
 /**
  * Ecran de jeu
  * Created by jerome on 01/10/14.
  */
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, InputProcessor {
 
     private Mario mario;
+    private MarioController controller;
     private World world;
     private WorldRenderer worldRenderer;
 
@@ -32,7 +32,9 @@ public class GameScreen implements Screen {
 
         mario = new Mario(new Vector2(3, 2));
         world = new World();
+        controller = new MarioController(world, mario);
         worldRenderer = new WorldRenderer(world, mario);
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -47,9 +49,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        worldRenderer.setSize(width, height);
-        this.width = width;
-        this.height = height;
     }
 
     @Override
@@ -70,5 +69,52 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+
+        if(keycode == Input.Keys.LEFT) {
+            controller.left();
+        }
+        if(keycode == Input.Keys.RIGHT)
+            controller.right();
+
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }

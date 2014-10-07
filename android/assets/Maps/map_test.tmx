@@ -4,28 +4,33 @@
   <image source="../Tilesets/Decors.png" width="528" height="448"/>
  </tileset>
  <layer name="ciel" width="30" height="15">
-  <data encoding="base64" compression="zlib">
-   eJzbycTAsHMUj+JRPIpH8SiG4pEGAJTXHPI=
-  </data>
- </layer>
- <layer name="obstacles" width="30" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjILhAZSgeCDspKfd6HYOhL+HEwAAjjYBmQ==
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA9vJxMCwcxSP4lE8ikfxKIbikQYAsa5j0AgHAAA=
   </data>
  </layer>
  <layer name="nuages" width="30" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYBj84DoTA8MNIL7JRB21+NQgy/0A4p9A/IsIe4lRi08NKXaNglEwCkbBKKAeAAC1rxX9
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGPzgOhMDww0gvslEHbX41CDL/QDin0D8iwh7iVGLTw0pdo2CUTAKRsEooB4AAEr+x2YIBwAA
+  </data>
+ </layer>
+ <layer name="obstacles" width="30" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjYBSMguEBlKB4IOykp93odg6Ev4cTAAB6Rl3FCAcAAA==
   </data>
  </layer>
  <layer name="caisses" width="30" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALaA0kseBSMgsEAAElbAH4=
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjYBSMAtoDSSx4FIyCwQAAEMnaTQgHAAA=
   </data>
  </layer>
  <layer name="sol" width="30" height="15">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMAoQgHGEYQAjoAA9
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjYBSMglEwChCAcYRhAG2QFNwIBwAA
+  </data>
+ </layer>
+ <layer name="top" width="30" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjYBSMgpEL5Bjpb6cs0E57IJano90gO+2g9tLb7sEOABG94dAIBwAA
   </data>
  </layer>
 </map>

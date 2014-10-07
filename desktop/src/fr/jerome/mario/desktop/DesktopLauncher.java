@@ -11,8 +11,8 @@ public class DesktopLauncher {
         config.title = "MarioGame LibGDX";
         config.x = 200;
         config.y = 200;
-        config.width = 800;
-        config.height = 600;
+        config.width = 600;
+        config.height = 450;
 		new LwjglApplication(new MarioGame(), config);
 	}
 }

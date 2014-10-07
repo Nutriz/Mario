@@ -24,22 +24,6 @@ public class World {
     public World() {
 
         tiledMap = new TmxMapLoader().load("Maps/map_test.tmx");
-        convertTiles();
-    }
-
-    private void convertTiles () {
-        TiledMapTileLayer layer = (TiledMapTileLayer)tiledMap.getLayers().get("obstacles");
-        tiles.clear();
-        for (int y = 0; y <= 10; y++) {
-            for (int x = 0; x <= 10; x++) {
-                TiledMapTileLayer.Cell cell = layer.getCell(x, y);
-                if (cell != null) {
-                    Rectangle rect = new Rectangle();
-                    rect.set(x, y, 1, 1);
-                    tiles.add(rect);
-                }
-            }
-        }
     }
 
     public Array<Rectangle> getTiles() {
