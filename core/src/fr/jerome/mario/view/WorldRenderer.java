@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -36,7 +37,7 @@ public class WorldRenderer {
     private Mario mario;
     private SpriteBatch batch;
 
-    private Texture marioImage;
+    private Texture currentFrameTexture;
 
     public WorldRenderer(World w, Mario m) {
 
@@ -44,7 +45,7 @@ public class WorldRenderer {
         this.mario = m;
         this.batch = new SpriteBatch();
         // a 16*16 pixel texture representating mario
-        this.marioImage = new Texture(Gdx.files.internal("Tilesets/mario.png"));
+        this.currentFrameTexture = new Texture(Gdx.files.internal("Tilesets/mario.png"));
 
         this.debugRenderer = new ShapeRenderer();
 
@@ -69,12 +70,20 @@ public class WorldRenderer {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
+        renderMario();
+
+//        drawDebug();
+    }
+
+    private void renderMario() {
+        Animation anim = null;
+
+        if (mario.getState() == Mario.WALK)
+
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(marioImage, mario.getPosition().x, mario.getPosition().y, 1, 1);
+        batch.draw(currentFrameTexture, mario.getPosition().x, mario.getPosition().y, 1, 1);
         batch.end();
-
-        drawDebug();
     }
 
     public void drawDebug() {

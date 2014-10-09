@@ -24,9 +24,6 @@ public class GameScreen implements Screen, InputProcessor {
     private World world;
     private WorldRenderer worldRenderer;
 
-    private int width;
-    private int height;
-
     @Override
     public void show() {
 
@@ -43,6 +40,7 @@ public class GameScreen implements Screen, InputProcessor {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        mario.update(delta);
         worldRenderer.render();
 
     }
@@ -68,24 +66,29 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
     public boolean keyDown(int keycode) {
 
-        if(keycode == Input.Keys.LEFT) {
-            controller.left();
-        }
+        if(keycode == Input.Keys.LEFT)
+            controller.leftPressed();
         if(keycode == Input.Keys.RIGHT)
-            controller.right();
+            controller.rightPressed();
 
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        return false;
+
+        if(keycode == Input.Keys.LEFT)
+            controller.leftReleased();
+        if(keycode == Input.Keys.RIGHT)
+            controller.rightReleased();
+
+        return true;
     }
 
     @Override
