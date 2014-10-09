@@ -21,7 +21,7 @@ public class MarioController {
 
     public void leftPressed() {
         mario.setFacingLeft(true);
-        mario.setState(Mario.WALK);
+        mario.setState(Mario.WALK_LEFT);
         mario.getVelocity().x = -Mario.SPEED;
     }
 
@@ -32,7 +32,7 @@ public class MarioController {
 
     public void rightPressed() {
         mario.setFacingLeft(false);
-        mario.setState(Mario.WALK);
+        mario.setState(Mario.WALK_RIGHT);
         mario.getVelocity().x = Mario.SPEED;
     }
 

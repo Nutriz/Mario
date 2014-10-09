@@ -41,7 +41,9 @@ public class WorldRenderer {
     // Mario and animations
     private Animation walkRight;
     private TextureRegion marioIdle;
-    private float stateTime;
+    private TextureRegion marioJump;
+    private TextureRegion marioDies;
+    private float stateTime = 0f;
 
     public WorldRenderer(World w) {
 
@@ -60,8 +62,6 @@ public class WorldRenderer {
         this.camera.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
         this.camera.update();
 
-        marioIdle = new TextureRegion(new Texture(Gdx.files.internal("Tilesets/Mario/mario.png")));
-
         createAnimations();
 
     }
@@ -79,7 +79,10 @@ public class WorldRenderer {
 
 
         walkRight = new Animation(0.1f, walkFrames);
-        stateTime = 0f;
+
+        marioIdle = tmp[0][0];
+        marioJump = tmp[0][5];
+        marioDies = tmp[0][6];
     }
 
     public void render() {
@@ -87,7 +90,10 @@ public class WorldRenderer {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
-        renderMario();
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+            renderMario();
+        batch.end();
 
         drawDebug();
     }
@@ -102,10 +108,7 @@ public class WorldRenderer {
         else
             currentFrame = marioIdle;
 
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
         batch.draw(currentFrame, mario.getPosition().x, mario.getPosition().y, 1, 1);
-        batch.end();
     }
 
     public void drawDebug() {
