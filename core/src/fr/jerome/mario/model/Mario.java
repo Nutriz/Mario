@@ -11,11 +11,12 @@ import com.badlogic.gdx.math.Vector2;
 public class Mario {
 
     public static final int IDLE = 0;
-    public static final int WALK = 1;
-    public static final int RUN = 2;
-    public static final int JUMP = 3;
+    public static final int WALK_LEFT = 1;
+    public static final int WALK_RIGHT = 2;
+    public static final int RUN = 3;
+    public static final int JUMP = 4;
 
-    public static final float SPEED = 4f;  // unité par seconde
+    public static final float SPEED = 8f;  // unité par seconde
     static final float JUMP_VELOCITY = 4f;
 
     // Position x and y

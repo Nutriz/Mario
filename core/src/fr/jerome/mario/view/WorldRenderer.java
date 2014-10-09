@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -37,15 +38,16 @@ public class WorldRenderer {
     private Mario mario;
     private SpriteBatch batch;
 
-    private Texture currentFrameTexture;
+    // Mario and animations
+    private Animation walkRight;
+    private TextureRegion marioIdle;
+    private float stateTime;
 
     public WorldRenderer(World w) {
 
         this.world = w;
         this.mario = world.mario;
         this.batch = new SpriteBatch();
-        // a 16*16 pixel texture representating mario
-        this.currentFrameTexture = new Texture(Gdx.files.internal("Tilesets/mario.png"));
 
         this.debugRenderer = new ShapeRenderer();
 
@@ -58,11 +60,26 @@ public class WorldRenderer {
         this.camera.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
         this.camera.update();
 
-        Gdx.app.log("Résolution X : ", String.valueOf(Gdx.graphics.getWidth()));
-        Gdx.app.log("Résolution Y : ", String.valueOf(Gdx.graphics.getHeight()));
+        marioIdle = new TextureRegion(new Texture(Gdx.files.internal("Tilesets/Mario/mario.png")));
 
-        Gdx.app.log("Caméra X : ", String.valueOf(camera.viewportWidth));
-        Gdx.app.log("Caméra X : ", String.valueOf(camera.viewportHeight));
+        createAnimations();
+
+    }
+
+    private void createAnimations() {
+
+        Texture marioTextures = new Texture(Gdx.files.internal("Tilesets/Mario/marioLittle.png"));
+        TextureRegion[] walkFrames = new TextureRegion[3];
+        TextureRegion[][] tmp = TextureRegion.split(marioTextures,
+                                                    marioTextures.getWidth()/14,
+                                                    marioTextures.getHeight());
+
+        for (int i = 0; i < 3; i++)
+            walkFrames[i] = tmp[0][i];
+
+
+        walkRight = new Animation(0.1f, walkFrames);
+        stateTime = 0f;
     }
 
     public void render() {
@@ -72,17 +89,22 @@ public class WorldRenderer {
 
         renderMario();
 
-//        drawDebug();
+        drawDebug();
     }
 
     private void renderMario() {
-        Animation anim = null;
 
-        if (mario.getState() == Mario.WALK)
+        TextureRegion currentFrame;
+        stateTime += Gdx.graphics.getDeltaTime();
+
+        if (mario.getState() == Mario.WALK_RIGHT)
+            currentFrame = walkRight.getKeyFrame(stateTime, true);
+        else
+            currentFrame = marioIdle;
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(currentFrameTexture, mario.getPosition().x, mario.getPosition().y, 1, 1);
+        batch.draw(currentFrame, mario.getPosition().x, mario.getPosition().y, 1, 1);
         batch.end();
     }
 
