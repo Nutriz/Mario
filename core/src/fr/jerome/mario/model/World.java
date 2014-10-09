@@ -18,16 +18,13 @@ import com.badlogic.gdx.utils.Array;
  */
 public class World {
 
-    private Array<Rectangle> tiles = new Array<Rectangle>();
+    public Mario mario;
     private TiledMap tiledMap;
 
     public World() {
 
+        mario = new Mario(new Vector2(3, 2));
         tiledMap = new TmxMapLoader().load("Maps/map_test.tmx");
-    }
-
-    public Array<Rectangle> getTiles() {
-        return tiles;
     }
 
     public TiledMap getTiledMap() {

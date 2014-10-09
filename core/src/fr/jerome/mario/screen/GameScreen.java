@@ -19,7 +19,6 @@ import fr.jerome.mario.view.WorldRenderer;
  */
 public class GameScreen implements Screen, InputProcessor {
 
-    private Mario mario;
     private MarioController controller;
     private World world;
     private WorldRenderer worldRenderer;
@@ -27,10 +26,9 @@ public class GameScreen implements Screen, InputProcessor {
     @Override
     public void show() {
 
-        mario = new Mario(new Vector2(3, 2));
         world = new World();
-        controller = new MarioController(world, mario);
-        worldRenderer = new WorldRenderer(world, mario);
+        controller = new MarioController(world);
+        worldRenderer = new WorldRenderer(world);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -40,7 +38,7 @@ public class GameScreen implements Screen, InputProcessor {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        mario.update(delta);
+        world.mario.update(delta);
         worldRenderer.render();
 
     }

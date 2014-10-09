@@ -39,10 +39,10 @@ public class WorldRenderer {
 
     private Texture currentFrameTexture;
 
-    public WorldRenderer(World w, Mario m) {
+    public WorldRenderer(World w) {
 
         this.world = w;
-        this.mario = m;
+        this.mario = world.mario;
         this.batch = new SpriteBatch();
         // a 16*16 pixel texture representating mario
         this.currentFrameTexture = new Texture(Gdx.files.internal("Tilesets/mario.png"));

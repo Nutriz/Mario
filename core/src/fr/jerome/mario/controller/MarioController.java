@@ -13,10 +13,10 @@ public class MarioController {
     private Mario mario;
 
 
-    public MarioController(World w, Mario m) {
+    public MarioController(World w) {
 
         this.world = w;
-        this.mario = m;
+        this.mario = world.mario;
     }
 
     public void leftPressed() {
