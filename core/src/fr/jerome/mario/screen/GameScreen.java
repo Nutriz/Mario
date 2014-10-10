@@ -74,6 +74,8 @@ public class GameScreen implements Screen, InputProcessor {
             controller.leftPressed();
         if(keycode == Input.Keys.RIGHT)
             controller.rightPressed();
+        if(keycode == Input.Keys.UP)
+            controller.jumpPressed();
 
         return true;
     }

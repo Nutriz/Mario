@@ -38,11 +38,13 @@ public class WorldRenderer {
     private Mario mario;
     private SpriteBatch batch;
 
-    // Mario and animations
-    private Animation walkRight;
-    private TextureRegion marioIdle;
+    // Mario animations
+    private TextureRegion marioIdleRight;
+    private TextureRegion marioIdleLeft;
     private TextureRegion marioJump;
     private TextureRegion marioDies;
+    private Animation walkRight;
+    private Animation walkLeft;
     private float stateTime = 0f;
 
     public WorldRenderer(World w) {
@@ -66,49 +68,71 @@ public class WorldRenderer {
 
     }
 
-    private void createAnimations() {
-
-        Texture marioTextures = new Texture(Gdx.files.internal("Tilesets/Mario/marioLittle.png"));
-        TextureRegion[] walkFrames = new TextureRegion[3];
-        TextureRegion[][] tmp = TextureRegion.split(marioTextures,
-                                                    marioTextures.getWidth()/14,
-                                                    marioTextures.getHeight());
-
-        for (int i = 0; i < 3; i++)
-            walkFrames[i] = tmp[0][i];
-
-
-        walkRight = new Animation(0.1f, walkFrames);
-
-        marioIdle = tmp[0][0];
-        marioJump = tmp[0][5];
-        marioDies = tmp[0][6];
-    }
-
     public void render() {
 
         tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
-
         batch.setProjectionMatrix(camera.combined);
+
+        tiledMapRenderer.render();
         batch.begin();
             renderMario();
         batch.end();
 
-        drawDebug();
+//        drawDebug();
     }
 
     private void renderMario() {
 
-        TextureRegion currentFrame;
+        TextureRegion currentFrame = null;
         stateTime += Gdx.graphics.getDeltaTime();
 
-        if (mario.getState() == Mario.WALK_RIGHT)
-            currentFrame = walkRight.getKeyFrame(stateTime, true);
-        else
-            currentFrame = marioIdle;
+        if (mario.getState() == Mario.IDLE) {
+            if (mario.getDir() == Mario.RIGHT)
+                currentFrame = marioIdleRight;
+            else
+                currentFrame = marioIdleLeft;
+        }
+
+        if (mario.getState() == Mario.WALK) {
+            if (mario.getDir() == Mario.RIGHT)
+                currentFrame = walkRight.getKeyFrame(stateTime, true);
+            else
+                currentFrame = walkLeft.getKeyFrame(stateTime, true);
+        }
+
+        if (mario.getState() == Mario.JUMP)
+            currentFrame = marioJump;
+
 
         batch.draw(currentFrame, mario.getPosition().x, mario.getPosition().y, 1, 1);
+    }
+
+    private void createAnimations() {
+
+        int nbImage = 14;
+
+        Texture marioTexturesRight = new Texture(Gdx.files.internal("Tilesets/Mario/marioLittle.png"));
+        TextureRegion[] regionsRight = new TextureRegion[nbImage];
+        TextureRegion[] regionsLeft = new TextureRegion[nbImage];
+
+        TextureRegion[][] tmp = TextureRegion.split(marioTexturesRight,
+                marioTexturesRight.getWidth()/nbImage,
+                marioTexturesRight.getHeight());
+
+        for (int i = 0; i < nbImage; i++) {
+            regionsRight[i] = tmp[0][i];
+            regionsLeft[i] = new TextureRegion(regionsRight[i]);
+            regionsLeft[i].flip(true, false);
+        }
+
+        marioIdleRight = regionsRight[0];
+        marioIdleLeft = regionsLeft[0];
+        marioJump = regionsRight[5];
+        marioDies = regionsRight[6];
+
+        walkRight = new Animation(0.1f, regionsRight[0], regionsRight[1], regionsRight[2], regionsRight[3]);
+        walkLeft = new Animation(0.1f,  regionsLeft[0], regionsLeft[1], regionsLeft[2], regionsLeft[3]);
+
     }
 
     public void drawDebug() {
