@@ -1,7 +1,7 @@
 package fr.jerome.mario.model;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -10,53 +10,100 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Mario {
 
+
     public static final int IDLE = 0;
     public static final int WALK = 2;
-    public static final int RUN = 4;
-    public static final int JUMP = 5;
-    public static final int RIGHT = 6;
-    public static final int LEFT = 7;
+    public static final int RUN = 3;
+    public static final int JUMP = 4;
 
-    private int         state = IDLE;
-    private int         dir = RIGHT;
+    public static final int RIGHT = 1;
+    public static final int LEFT = -1;
 
-    public static final float SPEED = 8f;  // unité par seconde
-    static final float JUMP_VELOCITY = 4f;
+    private int  state = IDLE;
+    private int  dir = RIGHT;
+
+
+    private static final float GRAVITY = -20f;
+
+    private static final float WALK_ACCEL = 20f;
+    private static final float FRICTION = 0.90f;
+    private static final float WALK_MAX = 6f;
 
     // Position x and y
-    private Vector2     position = new Vector2();
-    private Vector2     velocity = new Vector2();
+    private Vector2 pos = new Vector2();
+    private Vector2 vel = new Vector2();
+    private Vector2 accel = new Vector2();
 
     public Mario(Vector2 pos) {
-        this.position = pos;
+        this.pos = pos;
     }
 
-    public void update(float delta) {
-        position.add(velocity.cpy().scl(delta));
+    public void update(float deltaTime) {
 
+        processKeys();
+
+        accel.y = GRAVITY;
+        accel.scl(deltaTime);
+
+        vel.add(accel.x, accel.y);
+
+
+        if (vel.x > WALK_MAX) {
+            vel.x = WALK_MAX;
+        }
+        if (vel.x < -WALK_MAX) {
+            vel.x = -WALK_MAX;
+        }
+
+        Gdx.app.log("accel vect", accel.toString());
+        Gdx.app.log("vel   vect", vel.toString());
+
+        if (accel.x == 0)
+            vel.x *= FRICTION;
+
+        pos.add(vel.cpy().scl(deltaTime));
+
+        if (pos.y < 2) {
+            pos.y = 2;
+            this.state = Mario.IDLE;
+        }
+
+
+//        Gdx.app.log("debug mario ", "posx "+pos.x+" | posy "+pos.y+
+//                    " | velx "+vel.x+" | vely "+vel.y+
+//                     " | accel.x "+accel.x+" | accel.y "+accel.y);
     }
 
-    public Vector2 getPosition() {
-        return position;
-    }
+    private void processKeys () {
 
-    public Vector2 getVelocity() {
-        return velocity;
-    }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 
-    public void setState(int newStat) {
-        this.state = newStat;
-    }
+            if (state != JUMP)
+                state = WALK;
 
-    public int getState() {
-        return state;
+            dir = RIGHT;
+            accel.x = WALK_ACCEL * dir;
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+
+            if (state != JUMP)
+                state = WALK;
+
+            dir = LEFT;
+            accel.x = WALK_ACCEL * dir;
+        }
     }
 
     public int getDir() {
         return dir;
     }
 
-    public void setDir(int dir) {
-        this.dir = dir;
+    public Vector2 getPos() {
+        return pos;
+    }
+
+    public int getState() {
+        return state;
     }
 }

@@ -17,9 +17,8 @@ import fr.jerome.mario.view.WorldRenderer;
  * Ecran de jeu
  * Created by jerome on 01/10/14.
  */
-public class GameScreen implements Screen, InputProcessor {
+public class GameScreen implements Screen {
 
-    private MarioController controller;
     private World world;
     private WorldRenderer worldRenderer;
 
@@ -27,9 +26,7 @@ public class GameScreen implements Screen, InputProcessor {
     public void show() {
 
         world = new World();
-        controller = new MarioController(world);
         worldRenderer = new WorldRenderer(world);
-        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -65,59 +62,5 @@ public class GameScreen implements Screen, InputProcessor {
     @Override
     public void dispose() {
         Gdx.input.setInputProcessor(null);
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-
-        if(keycode == Input.Keys.LEFT)
-            controller.leftPressed();
-        if(keycode == Input.Keys.RIGHT)
-            controller.rightPressed();
-        if(keycode == Input.Keys.UP)
-            controller.jumpPressed();
-
-        return true;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-
-        if(keycode == Input.Keys.LEFT)
-            controller.leftReleased();
-        if(keycode == Input.Keys.RIGHT)
-            controller.rightReleased();
-
-        return true;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 }

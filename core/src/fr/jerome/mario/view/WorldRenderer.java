@@ -78,7 +78,7 @@ public class WorldRenderer {
             renderMario();
         batch.end();
 
-//        drawDebug();
+        drawDebug();
     }
 
     private void renderMario() {
@@ -86,25 +86,24 @@ public class WorldRenderer {
         TextureRegion currentFrame = null;
         stateTime += Gdx.graphics.getDeltaTime();
 
-        if (mario.getState() == Mario.IDLE) {
+        if (mario.getState() == Mario.JUMP)
+            currentFrame = marioJump;
+        else if (mario.getState() == Mario.WALK) {
+            if (mario.getDir() == Mario.RIGHT) {
+                currentFrame = walkRight.getKeyFrame(stateTime, true);
+            }
+            else {
+                currentFrame = walkLeft.getKeyFrame(stateTime, true);
+            }
+        }
+        else if (mario.getState() == Mario.IDLE) {
             if (mario.getDir() == Mario.RIGHT)
                 currentFrame = marioIdleRight;
             else
                 currentFrame = marioIdleLeft;
         }
 
-        if (mario.getState() == Mario.WALK) {
-            if (mario.getDir() == Mario.RIGHT)
-                currentFrame = walkRight.getKeyFrame(stateTime, true);
-            else
-                currentFrame = walkLeft.getKeyFrame(stateTime, true);
-        }
-
-        if (mario.getState() == Mario.JUMP)
-            currentFrame = marioJump;
-
-
-        batch.draw(currentFrame, mario.getPosition().x, mario.getPosition().y, 1, 1);
+        batch.draw(currentFrame, mario.getPos().x, mario.getPos().y, 1, 1);
     }
 
     private void createAnimations() {
@@ -144,7 +143,7 @@ public class WorldRenderer {
         TiledMap map = world.getTiledMap();
         int nbLayer = map.getLayers().getCount();
 
-        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Boucle pour passer dans chaque layer
         for (int i = 0; i < nbLayer; i++) {
@@ -175,6 +174,9 @@ public class WorldRenderer {
                 }
             }
         }
+
+        debugRenderer.rect(mario.getPos().x, mario.getPos().y, 1, 1);
+
 
         debugRenderer.end();
     }
