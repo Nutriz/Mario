@@ -73,6 +73,13 @@ public class WorldRenderer {
         createAnimations();
     }
 
+    public void moveCamera() {
+
+        camera.position.set(mario.getPos().x, CAMERA_HEIGHT / 2f, 0);
+        camera.update();
+
+    }
+
     public void render() {
 
         tiledMapRenderer.setView(camera);
@@ -84,10 +91,11 @@ public class WorldRenderer {
         batch.end();
 
         if (debug) drawDebug() ;
+
+        moveCamera();
     }
 
     private void renderMario() {
-        // TODO Add return Animation condition
 
         TextureRegion currentFrame = null;
         stateTime += Gdx.graphics.getDeltaTime();
