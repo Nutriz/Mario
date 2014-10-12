@@ -103,6 +103,10 @@ public class Mario {
         }
     }
 
+    public Rectangle getRect() {
+        return rect;
+    }
+
     public int getDir() {
         return dir;
     }

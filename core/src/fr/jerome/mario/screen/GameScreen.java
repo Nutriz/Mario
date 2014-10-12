@@ -1,15 +1,9 @@
 package fr.jerome.mario.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Logger;
 
-import fr.jerome.mario.controller.MarioController;
-import fr.jerome.mario.model.Mario;
 import fr.jerome.mario.model.World;
 import fr.jerome.mario.view.WorldRenderer;
 

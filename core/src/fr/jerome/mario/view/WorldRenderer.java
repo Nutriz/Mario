@@ -23,6 +23,8 @@ import fr.jerome.mario.model.World;
  */
 public class WorldRenderer {
 
+    private boolean debug = false;
+
     // Dimensions de la caméra
     private static final float CAMERA_WIDTH = 20;
     private static final float CAMERA_HEIGHT = 15;
@@ -69,7 +71,6 @@ public class WorldRenderer {
         this.camera.update();
 
         createAnimations();
-
     }
 
     public void render() {
@@ -82,7 +83,7 @@ public class WorldRenderer {
             renderMario();
         batch.end();
 
-//        drawDebug();
+        if (debug) drawDebug() ;
     }
 
     private void renderMario() {
@@ -196,16 +197,14 @@ public class WorldRenderer {
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         debugRenderer.setColor(new Color(1, 1, 1, 1));
 
-        // Vecteur pos
-        debugRenderer.line(0, 0, mario.getPos().x, mario.getPos().y);
-        // Vecteur vel
-        Vector2 vecVel = new Vector2(mario.getVel());
-        vecVel.scl(Gdx.graphics.getDeltaTime());
-        debugRenderer.line(mario.getPos().x, mario.getPos().y, mario.getPos().x+vecVel.x, mario.getPos().y+vecVel.y);
-        // Vecteur accel
+//        // Vecteur pos
 //        debugRenderer.line(0, 0, mario.getPos().x, mario.getPos().y);
-
-
+//        // Vecteur vel
+//        Vector2 vecVel = new Vector2(mario.getVel());
+//        vecVel.scl(Gdx.graphics.getDeltaTime());
+//        debugRenderer.line(mario.getPos().x, mario.getPos().y, mario.getPos().x+vecVel.x, mario.getPos().y+vecVel.y);
+//        // Vecteur accel
+////        debugRenderer.line(0, 0, mario.getPos().x, mario.getPos().y);
 
         debugRenderer.end();
     }
