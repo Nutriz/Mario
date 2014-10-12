@@ -26,7 +26,7 @@ public class Mario {
     private static final float JUMP_VEL = 10;
     private static final float WALK_ACCEL = 20;
     private static final float FRICTION = 0.90f;
-    private static final float WALK_MAX = 20;
+    private static final float WALK_MAX = 10;
 
     // Position x and y
     private Vector2 pos = new Vector2();

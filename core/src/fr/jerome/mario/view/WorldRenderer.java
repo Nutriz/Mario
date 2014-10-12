@@ -87,6 +87,7 @@ public class WorldRenderer {
     }
 
     private void renderMario() {
+        // TODO Add return Animation condition
 
         TextureRegion currentFrame = null;
         stateTime += Gdx.graphics.getDeltaTime();
@@ -97,21 +98,24 @@ public class WorldRenderer {
             else
                 currentFrame = marioJumpLeft;
         }
-
-        // TODO Add return Animation condition
-        if (mario.getState() == Mario.WALK) {
+        else if (mario.getState() == Mario.WALK) {
             if (mario.getDir() == Mario.RIGHT)
                 currentFrame = walkRight.getKeyFrame(stateTime, true);
             else
                 currentFrame = walkLeft.getKeyFrame(stateTime, true);
         }
-
-        if (mario.getState() == Mario.IDLE) {
+        else if (mario.getState() == Mario.IDLE) {
             if (mario.getDir() == Mario.RIGHT)
                 currentFrame = marioIdleRight;
             else
                 currentFrame = marioIdleLeft;
         }
+        // Return animation
+        if (mario.getDir() == Mario.RIGHT && mario.getVel().x < 0)
+            currentFrame = marioReturnRight;
+        else if ((mario.getDir() == Mario.LEFT && mario.getVel().x > 0))
+            currentFrame = marioReturnLeft;
+
 
         batch.draw(currentFrame, mario.getPos().x, mario.getPos().y, 1, 1);
     }
