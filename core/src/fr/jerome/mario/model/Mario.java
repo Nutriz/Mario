@@ -13,7 +13,6 @@ public class Mario {
 
     public static final int IDLE = 0;
     public static final int WALK = 2;
-    public static final int RUN = 3;
     public static final int JUMP = 4;
 
     public static final int RIGHT = 1;
@@ -22,12 +21,11 @@ public class Mario {
     private int  state = IDLE;
     private int  dir = RIGHT;
 
-
-    private static final float GRAVITY = -20f;
-
-    private static final float WALK_ACCEL = 20f;
-    private static final float FRICTION = 0.90f;
-    private static final float WALK_MAX = 6f;
+    private static final float GRAVITY = -20;
+    private static final float JUMP_VEL = 10;
+    private static final float WALK_ACCEL = 12;
+    private static final float FRICTION = 0.92f;
+    private static final float WALK_MAX = 20;
 
     // Position x and y
     private Vector2 pos = new Vector2();
@@ -40,6 +38,7 @@ public class Mario {
 
     public void update(float deltaTime) {
 
+        // TODO debugMode avec représentation des vecteur Pos, Vel et Accel en temps réel
         processKeys();
 
         accel.y = GRAVITY;
@@ -47,34 +46,33 @@ public class Mario {
 
         vel.add(accel.x, accel.y);
 
+        if (accel.x < 0.01 && dir == RIGHT)
+            vel.x *= FRICTION;
+        else if (accel.x > -0.01 && dir == LEFT)
+            vel.x *= FRICTION;
 
         if (vel.x > WALK_MAX) {
             vel.x = WALK_MAX;
         }
-        if (vel.x < -WALK_MAX) {
+        else if (vel.x < -WALK_MAX) {
             vel.x = -WALK_MAX;
         }
 
-        Gdx.app.log("accel vect", accel.toString());
-        Gdx.app.log("vel   vect", vel.toString());
-
-        if (accel.x == 0)
-            vel.x *= FRICTION;
-
-        pos.add(vel.cpy().scl(deltaTime));
+        pos.mulAdd(vel, deltaTime);
 
         if (pos.y < 2) {
             pos.y = 2;
             this.state = Mario.IDLE;
         }
-
-
-//        Gdx.app.log("debug mario ", "posx "+pos.x+" | posy "+pos.y+
-//                    " | velx "+vel.x+" | vely "+vel.y+
-//                     " | accel.x "+accel.x+" | accel.y "+accel.y);
     }
 
     private void processKeys () {
+
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && state != JUMP) {
+
+            state = JUMP;
+            vel.y = JUMP_VEL;
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 
@@ -105,5 +103,17 @@ public class Mario {
 
     public int getState() {
         return state;
+    }
+
+    public Vector2 getVel() {
+        return vel;
+    }
+
+    public Vector2 getAccel() {
+        return accel;
+    }
+
+    public static float getGravity() {
+        return GRAVITY;
     }
 }

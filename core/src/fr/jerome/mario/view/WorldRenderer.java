@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 import fr.jerome.mario.model.Mario;
 import fr.jerome.mario.model.World;
@@ -175,7 +176,23 @@ public class WorldRenderer {
             }
         }
 
+        // Mario
+        debugRenderer.setColor(new Color(0.5f, 0.5f, 0.5f, 1));
         debugRenderer.rect(mario.getPos().x, mario.getPos().y, 1, 1);
+        debugRenderer.end();
+
+        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.setColor(new Color(1, 1, 1, 1));
+
+        // Vecteur pos
+        debugRenderer.line(0, 0, mario.getPos().x, mario.getPos().y);
+        // Vecteur vel
+        Vector2 vecVel = new Vector2(mario.getVel());
+        vecVel.scl(Gdx.graphics.getDeltaTime());
+        debugRenderer.line(mario.getPos().x, mario.getPos().y, mario.getPos().x+vecVel.x, mario.getPos().y+vecVel.y);
+        // Vecteur accel
+//        debugRenderer.line(0, 0, mario.getPos().x, mario.getPos().y);
+
 
 
         debugRenderer.end();

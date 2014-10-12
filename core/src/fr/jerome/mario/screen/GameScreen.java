@@ -37,8 +37,9 @@ public class GameScreen implements Screen {
 
         world.mario.update(delta);
         worldRenderer.render();
-
     }
+
+
 
     @Override
     public void resize(int width, int height) {
