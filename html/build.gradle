@@ -7,8 +7,8 @@ gwt {
     minHeapSize="1G"
 
     src = files(file("src/")) // Needs to be in front of "modules" below.
-    modules 'fr.jerome.mario.GdxDefinition'
-    devModules 'fr.jerome.mario.GdxDefinitionSuperdev'
+    modules 'fr.test.GdxDefinition'
+    devModules 'fr.test.GdxDefinitionSuperdev'
     project.webAppDirName = 'webapp'
 
     compiler {
@@ -28,7 +28,7 @@ task draftRun(type: JettyRunWar) {
 task superDev(type: de.richsource.gradle.plugins.gwt.GwtSuperDev) {
     dependsOn draftRun
     doFirst {
-    	gwt.modules = gwt.devModules
+        gwt.modules = gwt.devModules
     }
 }
 
@@ -42,7 +42,7 @@ task dist(dependsOn: [clean, compileGwt]) {
         copy {
             from "webapp"
             into "build/dist"
-            }
+        }
         copy {
             from "war"
             into "build/dist"
@@ -51,11 +51,11 @@ task dist(dependsOn: [clean, compileGwt]) {
 }
 
 draftWar {
-   from "war"
+    from "war"
 }
 
 task addSource << {
-	sourceSets.main.compileClasspath += files(project(':core').sourceSets.main.allJava.srcDirs)
+    sourceSets.main.compileClasspath += files(project(':core').sourceSets.main.allJava.srcDirs)
 }
 
 tasks.compileGwt.dependsOn(addSource)

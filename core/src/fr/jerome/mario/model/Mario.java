@@ -43,7 +43,6 @@ public class Mario {
     public void update(float deltaTime) {
 
         processKeys();
-        Gdx.app.log("state", " "+state );
         accel.y = GRAVITY;
         accel.scl(deltaTime);
 

@@ -105,7 +105,6 @@ public class WorldRenderer {
                 currentFrame = walkLeft.getKeyFrame(stateTime, true);
         }
 
-
         if (mario.getState() == Mario.IDLE) {
             if (mario.getDir() == Mario.RIGHT)
                 currentFrame = marioIdleRight;
