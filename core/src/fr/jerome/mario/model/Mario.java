@@ -2,6 +2,7 @@ package fr.jerome.mario.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -13,7 +14,7 @@ public class Mario {
 
     public static final int IDLE = 0;
     public static final int WALK = 2;
-    public static final int JUMP = 4;
+    public static final int JUMP = 3;
 
     public static final int RIGHT = 1;
     public static final int LEFT = -1;
@@ -23,8 +24,8 @@ public class Mario {
 
     private static final float GRAVITY = -20;
     private static final float JUMP_VEL = 10;
-    private static final float WALK_ACCEL = 12;
-    private static final float FRICTION = 0.92f;
+    private static final float WALK_ACCEL = 20;
+    private static final float FRICTION = 0.90f;
     private static final float WALK_MAX = 20;
 
     // Position x and y
@@ -32,23 +33,25 @@ public class Mario {
     private Vector2 vel = new Vector2();
     private Vector2 accel = new Vector2();
 
+    private Rectangle rect = new Rectangle();
+
     public Mario(Vector2 pos) {
         this.pos = pos;
+        this.rect.setPosition(pos);
     }
 
     public void update(float deltaTime) {
 
-        // TODO debugMode avec représentation des vecteur Pos, Vel et Accel en temps réel
         processKeys();
-
+        Gdx.app.log("state", " "+state );
         accel.y = GRAVITY;
         accel.scl(deltaTime);
 
         vel.add(accel.x, accel.y);
 
-        if (accel.x < 0.01 && dir == RIGHT)
+        if (accel.x < 0.01f && dir == RIGHT)
             vel.x *= FRICTION;
-        else if (accel.x > -0.01 && dir == LEFT)
+        else if (accel.x > -0.01f && dir == LEFT)
             vel.x *= FRICTION;
 
         if (vel.x > WALK_MAX) {
@@ -58,11 +61,19 @@ public class Mario {
             vel.x = -WALK_MAX;
         }
 
+        // Modification de la position
         pos.mulAdd(vel, deltaTime);
 
+        if (pos.x < 0)
+            pos.x = 0;
         if (pos.y < 2) {
             pos.y = 2;
-            this.state = Mario.IDLE;
+            if (state != Mario.WALK)
+                state = Mario.IDLE;
+            if (vel.x < 1f && dir == RIGHT)
+                state = Mario.IDLE;
+            else if (vel.x > -1f && dir == LEFT)
+                state = Mario.IDLE;
         }
     }
 

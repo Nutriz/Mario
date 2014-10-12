@@ -42,7 +42,10 @@ public class WorldRenderer {
     // Mario animations
     private TextureRegion marioIdleRight;
     private TextureRegion marioIdleLeft;
-    private TextureRegion marioJump;
+    private TextureRegion marioJumpRight;
+    private TextureRegion marioJumpLeft;
+    private TextureRegion marioReturnRight;
+    private TextureRegion marioReturnLeft;
     private TextureRegion marioDies;
     private Animation walkRight;
     private Animation walkLeft;
@@ -79,7 +82,7 @@ public class WorldRenderer {
             renderMario();
         batch.end();
 
-        drawDebug();
+//        drawDebug();
     }
 
     private void renderMario() {
@@ -87,17 +90,23 @@ public class WorldRenderer {
         TextureRegion currentFrame = null;
         stateTime += Gdx.graphics.getDeltaTime();
 
-        if (mario.getState() == Mario.JUMP)
-            currentFrame = marioJump;
-        else if (mario.getState() == Mario.WALK) {
-            if (mario.getDir() == Mario.RIGHT) {
-                currentFrame = walkRight.getKeyFrame(stateTime, true);
-            }
-            else {
-                currentFrame = walkLeft.getKeyFrame(stateTime, true);
-            }
+        if (mario.getState() == Mario.JUMP) {
+            if (mario.getDir() == Mario.RIGHT)
+                currentFrame = marioJumpRight;
+            else
+                currentFrame = marioJumpLeft;
         }
-        else if (mario.getState() == Mario.IDLE) {
+
+        // TODO Add return Animation condition
+        if (mario.getState() == Mario.WALK) {
+            if (mario.getDir() == Mario.RIGHT)
+                currentFrame = walkRight.getKeyFrame(stateTime, true);
+            else
+                currentFrame = walkLeft.getKeyFrame(stateTime, true);
+        }
+
+
+        if (mario.getState() == Mario.IDLE) {
             if (mario.getDir() == Mario.RIGHT)
                 currentFrame = marioIdleRight;
             else
@@ -127,7 +136,10 @@ public class WorldRenderer {
 
         marioIdleRight = regionsRight[0];
         marioIdleLeft = regionsLeft[0];
-        marioJump = regionsRight[5];
+        marioJumpRight = regionsRight[5];
+        marioJumpLeft = regionsLeft[5];
+        marioReturnRight = regionsRight[4];
+        marioReturnLeft = regionsLeft[4];
         marioDies = regionsRight[6];
 
         walkRight = new Animation(0.1f, regionsRight[0], regionsRight[1], regionsRight[2], regionsRight[3]);
@@ -181,6 +193,7 @@ public class WorldRenderer {
         debugRenderer.rect(mario.getPos().x, mario.getPos().y, 1, 1);
         debugRenderer.end();
 
+        // TODO debugMode avec représentation des vecteur Pos, Vel et Accel en temps réel
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         debugRenderer.setColor(new Color(1, 1, 1, 1));
 
