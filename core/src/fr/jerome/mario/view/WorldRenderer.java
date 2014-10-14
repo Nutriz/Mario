@@ -39,7 +39,6 @@ public class WorldRenderer {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     // Notre héro
     private Mario mario;
-    private SpriteBatch batch;
 
     // Mario animations
     private TextureRegion marioIdleRight;
@@ -57,12 +56,12 @@ public class WorldRenderer {
 
         this.world = w;
         this.mario = world.mario;
-        this.batch = new SpriteBatch();
 
         this.debugRenderer = new ShapeRenderer();
 
         // Load the map
         this.tiledMapRenderer = new OrthogonalTiledMapRenderer(world.getTiledMap(), 1/16f);
+
 
         // caméra orthographic de 20x15 unités
         this.camera = new OrthographicCamera();
@@ -73,9 +72,18 @@ public class WorldRenderer {
         createAnimations();
     }
 
+    // FIXME Trouver la fonction de TiledMap pour renvoyer ses dimensions
+    // TODO Implémenter l'anti retour de la camera
     public void moveCamera() {
 
-        camera.position.set(mario.getPos().x, CAMERA_HEIGHT / 2f, 0);
+        // nombres d'unités d'avance pour la caméra  par rapport à mario
+        int decCam = 4;
+        float oldX = camera.position.x;
+
+        // Suivre mario s'il avance et ne dépasse pas les dimensions de la map
+        if (mario.getPos().x > (CAMERA_WIDTH / 2f - decCam) && mario.getPos().x < 100 - decCam - CAMERA_WIDTH / 2f)
+            camera.position.set(mario.getPos().x + decCam, camera.position.y, 0);
+
         camera.update();
 
     }
@@ -83,12 +91,11 @@ public class WorldRenderer {
     public void render() {
 
         tiledMapRenderer.setView(camera);
-        batch.setProjectionMatrix(camera.combined);
-
         tiledMapRenderer.render();
-        batch.begin();
+
+        tiledMapRenderer.getSpriteBatch().begin();
             renderMario();
-        batch.end();
+        tiledMapRenderer.getSpriteBatch().end();
 
         if (debug) drawDebug() ;
 
@@ -119,13 +126,20 @@ public class WorldRenderer {
                 currentFrame = marioIdleLeft;
         }
         // Return animation
-        if (mario.getDir() == Mario.RIGHT && mario.getVel().x < 0)
-            currentFrame = marioReturnRight;
-        else if ((mario.getDir() == Mario.LEFT && mario.getVel().x > 0))
-            currentFrame = marioReturnLeft;
+        if (mario.getState() != Mario.JUMP) {
+            if (mario.getDir() == Mario.RIGHT && mario.getVel().x < 0)
+                currentFrame = marioReturnRight;
+            else if ((mario.getDir() == Mario.LEFT && mario.getVel().x > 0))
+                currentFrame = marioReturnLeft;
+        }
 
+        // FIXME mario meurt pas
+        if (mario.getState() == Mario.DYING) {
+            currentFrame = marioDies;
+            Gdx.app.log("eee", "eee");
+        }
 
-        batch.draw(currentFrame, mario.getPos().x, mario.getPos().y, 1, 1);
+        tiledMapRenderer.getSpriteBatch().draw(currentFrame, mario.getPos().x, mario.getPos().y, 1, 1);
     }
 
     private void createAnimations() {

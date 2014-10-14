@@ -15,6 +15,7 @@ public class Mario {
     public static final int IDLE = 0;
     public static final int WALK = 2;
     public static final int JUMP = 3;
+    public static final int DYING = 4;
 
     public static final int RIGHT = 1;
     public static final int LEFT = -1;
@@ -22,8 +23,8 @@ public class Mario {
     private int  state = IDLE;
     private int  dir = RIGHT;
 
-    private static final float GRAVITY = -20;
-    private static final float JUMP_VEL = 10;
+    private static final float GRAVITY = -30;
+    private static final float JUMP_VEL = 14;
     private static final float WALK_ACCEL = 20;
     private static final float FRICTION = 0.90f;
     private static final float WALK_MAX = 10;
@@ -33,11 +34,12 @@ public class Mario {
     private Vector2 vel = new Vector2();
     private Vector2 accel = new Vector2();
 
-    private Rectangle rect = new Rectangle();
+    private World world;
 
-    public Mario(Vector2 pos) {
+
+    public Mario(Vector2 pos, World w) {
         this.pos = pos;
-        this.rect.setPosition(pos);
+        this.world = w;
     }
 
     public void update(float deltaTime) {
@@ -65,6 +67,10 @@ public class Mario {
 
         if (pos.x < 0)
             pos.x = 0;
+        else if (pos.x > 99)
+            pos.x = 99;
+
+
         if (pos.y < 2) {
             pos.y = 2;
             if (state != Mario.WALK)
@@ -101,10 +107,10 @@ public class Mario {
             dir = LEFT;
             accel.x = WALK_ACCEL * dir;
         }
-    }
 
-    public Rectangle getRect() {
-        return rect;
+        if (Gdx.input.isKeyPressed(Input.Keys.K))
+            state = Mario.DYING;
+
     }
 
     public int getDir() {

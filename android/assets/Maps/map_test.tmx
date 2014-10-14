@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="30" height="15" tilewidth="16" tileheight="16">
+<map version="1.0" orientation="orthogonal" width="100" height="15" tilewidth="16" tileheight="16">
  <tileset firstgid="1" name="Decors" tilewidth="16" tileheight="16">
   <image source="../Tilesets/Decors.png" width="528" height="448"/>
  </tileset>
- <layer name="ciel" width="30" height="15">
+ <layer name="ciel" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA9vJxMCwcxSP4lE8ikfxKIbikQYAsa5j0AgHAAA=
+   H4sIAAAAAAAAA+3DMQkAAAwDsDL/huquIvYmkF5SVVVVVVX1dSw744FwFwAA
   </data>
  </layer>
- <layer name="nuages" width="30" height="15">
+ <layer name="nuages" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGPzgOhMDww0gvslEHbX41CDL/QDin0D8iwh7iVGLTw0pdo2CUTAKRsEooB4AAEr+x2YIBwAA
+   H4sIAAAAAAAAA+3TwQ2AIAwF0AamUDdR919B3UQ90SMnIqY/WPwv6QlCmt8iQl5tQWTXOoLt3daGKDJqTfEbb5eyy89OrUvrfpBxzd3WZs1q0VoB83jzdik7VK7InUTw1m8t5E4i5P32Phtr6Lwsd+kPs/X09zz1SkREREREfUk67rXqcBcAAA==
   </data>
  </layer>
- <layer name="obstacles" width="30" height="15">
+ <layer name="obstacles" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAWjYBSMguEBlKB4IOykp93odg6Ev4cTAAB6Rl3FCAcAAA==
+   H4sIAAAAAAAAA+3SMQrAIBBE0dkyNrmDZXIZ8f6HiWUQG4OuAf+DqV1mlAAAAAAAGCO+grH+1msy6Wwk2+rL5ovy/+tH6TVs0G2veguvTa6yxb3xHuaYVe8S9viaB3hc7b1wFwAA
   </data>
  </layer>
- <layer name="caisses" width="30" height="15">
+ <layer name="caisses" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAWjYBSMAtoDSSx4FIyCwQAAEMnaTQgHAAA=
+   H4sIAAAAAAAAA+3DMQ0AAAgDsNnAv1GOvRwIaJMmAAAA8DNHAABqAV6cxiNwFwAA
   </data>
  </layer>
- <layer name="sol" width="30" height="15">
+ <layer name="top" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAWjYBSMglEwChCAcYRhAG2QFNwIBwAA
+   H4sIAAAAAAAAA+3R4QkAEBSFUQbBJuy/lafYQCmdU/f/rS8lAAAA4Ec1v37AUaLFiDVNnlst+u6hCXDbBDaiLVVwFwAA
   </data>
  </layer>
- <layer name="top" width="30" height="15">
+ <layer name="pieces" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAWjYBSMgpEL5Bjpb6cs0E57IJano90gO+2g9tLb7sEOABG94dAIBwAA
+   H4sIAAAAAAAAA+3RsQkAQAgEQeuy/8JMP35EFGZg4wsuAgAAAIAt8ml6rzP++ANuK4MeS+JwFwAA
   </data>
  </layer>
 </map>

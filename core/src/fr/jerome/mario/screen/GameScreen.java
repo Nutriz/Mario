@@ -33,8 +33,6 @@ public class GameScreen implements Screen {
         worldRenderer.render();
     }
 
-
-
     @Override
     public void resize(int width, int height) {
     }
@@ -56,6 +54,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        Gdx.input.setInputProcessor(null);
+
+
     }
 }
