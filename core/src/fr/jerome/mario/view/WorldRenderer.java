@@ -21,7 +21,7 @@ import fr.jerome.mario.model.World;
  */
 public class WorldRenderer {
 
-    private boolean debug = false;
+    private boolean debug = true;
 
     // Dimensions de la caméra
     private static final float CAMERA_WIDTH = 20;
@@ -189,18 +189,16 @@ public class WorldRenderer {
 
             // Couleur différente pour chaque Layer
             switch (i) {
-                case 0 : debugRenderer.setColor(new Color(0, 1, 1, 1)); break;
-                case 1 : debugRenderer.setColor(new Color(1, 1, 1, 1)); break;
+                case 0 : debugRenderer.setColor(new Color(1, 1, 1, 1)); break;
+                case 1 : debugRenderer.setColor(new Color(1, 0.5f, 0.5f, 1)); break;
                 case 2 : debugRenderer.setColor(new Color(1, 0, 1, 1)); break;
                 case 3 : debugRenderer.setColor(new Color(0, 1, 1, 1)); break;
                 case 4 : debugRenderer.setColor(new Color(1, 0, 0, 1)); break;
-                case 5 : debugRenderer.setColor(new Color(0, 0, 0.5f, 1)); break;
-                case 6 : debugRenderer.setColor(new Color(0.5f, 0.5f, 0.5f, 1)); break;
             }
 
             // Boucle avec test si cell existe ou pas, traçage si existante
-            for (int y = 0; y <= 15; y++) {
-                for (int x = 0; x <= 20; x++) {
+            for (int y = 0; y <= world.getMapHeight(); y++) {
+                for (int x = 0; x <= world.getMapWidth(); x++) {
                     TiledMapTileLayer.Cell cell = layer.getCell(x, y);
                     if (cell != null) {
                         Rectangle rect = new Rectangle();

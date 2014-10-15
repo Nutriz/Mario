@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="15" tilewidth="16" tileheight="16">
- <tileset firstgid="1" name="Decors" tilewidth="16" tileheight="16">
-  <image source="../Tilesets/Decors.png" width="528" height="448"/>
+ <tileset firstgid="1" name="decors" tilewidth="16" tileheight="16">
+  <image source="../Tilesets/decors.png" width="528" height="448"/>
+  <tile id="2">
+   <properties>
+    <property name="block" value="vide"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="box" value="champignon"/>
+   </properties>
+  </tile>
+  <tile id="57">
+   <properties>
+    <property name="piece" value="1"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="925" name="ennemis" tilewidth="16" tileheight="16">
-  <image source="../Tilesets/Enemies.png" width="808" height="128"/>
+  <image source="../Tilesets/enemies.png" width="808" height="128"/>
  </tileset>
  <tileset firstgid="1325" name="objects" tilewidth="16" tileheight="16">
-  <image source="../Tilesets/Items_Objects.png" width="576" height="336"/>
+  <image source="../Tilesets/items_Objects.png" width="576" height="336"/>
+ </tileset>
+ <tileset firstgid="2081" name="collisions" tilewidth="16" tileheight="16">
+  <image source="../Tilesets/collisions.png" width="64" height="16"/>
+  <tile id="0">
+   <properties>
+    <property name="collisions" value="1"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="ciel" width="100" height="15">
   <data encoding="base64" compression="gzip">
@@ -19,19 +42,14 @@
    H4sIAAAAAAAAA+3TwQ2AIAwF0AamUDdR919B3UQ90SMnIqY/WPwv6QlCmt8iQl5tQWTXOoLt3daGKDJqTfEbb5eyy89OrUvrfpBxzd3WZs1q0VoB83jzdik7VK7InUTw1m8t5E4i5P32Phtr6Lwsd+kPs/X09zz1SkREREREfUk67rXqcBcAAA==
   </data>
  </layer>
- <layer name="obstacles" width="100" height="15">
+ <layer name="map" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3SMQrAIBBE0dkyNrmDZXIZ8f6HiWUQG4OuAf+DqV1mlAAAAAAAGCO+grH+1msy6Wwk2+rL5ovy/+tH6TVs0G2veguvTa6yxb3xHuaYVe8S9viaB3hc7b1wFwAA
+   H4sIAAAAAAAAA+3TMQqAMAyF4RQnXZxdO+oNegrx/oexg0IUJ2maiv8HD7o15LUiAAAA5SXvAXBBH22hD3xZd2RSZy2qoKzW9roGkfEhW/CezF4U27eeVE593utgtNtklBruXdT6J3PuYvlxH6FivO4l9PE2O3dn7zJwFwAA
   </data>
  </layer>
- <layer name="caisses" width="100" height="15">
+ <layer name="collisions" width="100" height="15" opacity="0.21">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3DMQ0AAAgDsNnAv1GOvRwIaJMmAAAA8DNHAABqAV6cxiNwFwAA
-  </data>
- </layer>
- <layer name="pieces" width="100" height="15">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3RsQkAQAgEQeuy/8JMP35EFGZg4wsuAgAAAIAt8ml6rzP++ANuK4MeS+JwFwAA
+   H4sIAAAAAAAAA+3TwQ2AMAgFUI6u4f5LOoC1UUMDSd9L/qkHWqARAAAA8M553PN0Tq5ufR3tQrc7rlLx3l16+1XVDu4+j9n/z05VXTGPv7kAUWcgQnAXAAA=
   </data>
  </layer>
 </map>
