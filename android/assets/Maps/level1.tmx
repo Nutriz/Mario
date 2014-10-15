@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="100" height="15" tilewidth="16" tileheight="16">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="15" tilewidth="16" tileheight="16">
  <tileset firstgid="1" name="Decors" tilewidth="16" tileheight="16">
   <image source="../Tilesets/Decors.png" width="528" height="448"/>
+ </tileset>
+ <tileset firstgid="925" name="ennemis" tilewidth="16" tileheight="16">
+  <image source="../Tilesets/Enemies.png" width="808" height="128"/>
+ </tileset>
+ <tileset firstgid="1325" name="objects" tilewidth="16" tileheight="16">
+  <image source="../Tilesets/Items_Objects.png" width="576" height="336"/>
  </tileset>
  <layer name="ciel" width="100" height="15">
   <data encoding="base64" compression="gzip">
@@ -21,11 +27,6 @@
  <layer name="caisses" width="100" height="15">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3DMQ0AAAgDsNnAv1GOvRwIaJMmAAAA8DNHAABqAV6cxiNwFwAA
-  </data>
- </layer>
- <layer name="top" width="100" height="15">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3R4QkAEBSFUQbBJuy/lafYQCmdU/f/rS8lAAAA4Ec1v37AUaLFiDVNnlst+u6hCXDbBDaiLVVwFwAA
   </data>
  </layer>
  <layer name="pieces" width="100" height="15">

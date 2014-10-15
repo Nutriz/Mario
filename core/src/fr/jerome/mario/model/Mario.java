@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Mario {
 
-
     public static final int IDLE = 0;
     public static final int WALK = 2;
     public static final int JUMP = 3;
@@ -23,7 +22,7 @@ public class Mario {
     private int  state = IDLE;
     private int  dir = RIGHT;
 
-    private static final float GRAVITY = -30;
+    private static final float GRAVITY = -20;
     private static final float JUMP_VEL = 14;
     private static final float WALK_ACCEL = 20;
     private static final float FRICTION = 0.90f;
@@ -35,7 +34,6 @@ public class Mario {
     private Vector2 accel = new Vector2();
 
     private World world;
-
 
     public Mario(Vector2 pos, World w) {
         this.pos = pos;
@@ -67,31 +65,33 @@ public class Mario {
 
         if (pos.x < 0)
             pos.x = 0;
-        else if (pos.x > 99)
-            pos.x = 99;
+        else if (pos.x > world.getMapWidth()-1)
+            pos.x =  world.getMapWidth()-1;
 
-
-        if (pos.y < 2) {
+        if (pos.y < 2 && state != Mario.DYING) {
             pos.y = 2;
-            if (state != Mario.WALK)
-                state = Mario.IDLE;
+
             if (vel.x < 1f && dir == RIGHT)
                 state = Mario.IDLE;
             else if (vel.x > -1f && dir == LEFT)
                 state = Mario.IDLE;
+
+            if (state != Mario.WALK)
+                state = Mario.IDLE;
         }
+        else if (state == Mario.DYING)
+            pos.y = 2;
+
     }
 
     private void processKeys () {
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && state != JUMP) {
-
             state = JUMP;
             vel.y = JUMP_VEL;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-
             if (state != JUMP)
                 state = WALK;
 
@@ -100,7 +100,6 @@ public class Mario {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-
             if (state != JUMP)
                 state = WALK;
 
@@ -110,7 +109,6 @@ public class Mario {
 
         if (Gdx.input.isKeyPressed(Input.Keys.K))
             state = Mario.DYING;
-
     }
 
     public int getDir() {

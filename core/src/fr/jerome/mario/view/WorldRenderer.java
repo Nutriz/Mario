@@ -5,14 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 import fr.jerome.mario.model.Mario;
 import fr.jerome.mario.model.World;
@@ -41,15 +39,15 @@ public class WorldRenderer {
     private Mario mario;
 
     // Mario animations
-    private TextureRegion marioIdleRight;
-    private TextureRegion marioIdleLeft;
-    private TextureRegion marioJumpRight;
-    private TextureRegion marioJumpLeft;
-    private TextureRegion marioReturnRight;
-    private TextureRegion marioReturnLeft;
+    private TextureRegion marioIdleR;
+    private TextureRegion marioIdleL;
+    private TextureRegion marioJumpR;
+    private TextureRegion marioJumpL;
+    private TextureRegion marioReturnR;
+    private TextureRegion marioReturnL;
     private TextureRegion marioDies;
-    private Animation walkRight;
-    private Animation walkLeft;
+    private Animation walkR;
+    private Animation walkL;
     private float stateTime = 0f;
 
     public WorldRenderer(World w) {
@@ -62,7 +60,6 @@ public class WorldRenderer {
         // Load the map
         this.tiledMapRenderer = new OrthogonalTiledMapRenderer(world.getTiledMap(), 1/16f);
 
-
         // caméra orthographic de 20x15 unités
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
@@ -72,20 +69,20 @@ public class WorldRenderer {
         createAnimations();
     }
 
-    // FIXME Trouver la fonction de TiledMap pour renvoyer ses dimensions
     // TODO Implémenter l'anti retour de la camera
     public void moveCamera() {
 
+        float marioX = mario.getPos().x;
+        int mapWidth  = world.getTiledMap().getProperties().get("width", Integer.class);
         // nombres d'unités d'avance pour la caméra  par rapport à mario
         int decCam = 4;
         float oldX = camera.position.x;
 
         // Suivre mario s'il avance et ne dépasse pas les dimensions de la map
-        if (mario.getPos().x > (CAMERA_WIDTH / 2f - decCam) && mario.getPos().x < 100 - decCam - CAMERA_WIDTH / 2f)
-            camera.position.set(mario.getPos().x + decCam, camera.position.y, 0);
+        if (marioX > (CAMERA_WIDTH / 2f - decCam) && marioX < mapWidth - decCam - CAMERA_WIDTH / 2f)
+            camera.position.set(marioX + decCam, camera.position.y, 0);
 
         camera.update();
-
     }
 
     public void render() {
@@ -104,42 +101,42 @@ public class WorldRenderer {
 
     private void renderMario() {
 
+        int dir = mario.getDir();
+        int state = mario.getState();
         TextureRegion currentFrame = null;
         stateTime += Gdx.graphics.getDeltaTime();
 
-        if (mario.getState() == Mario.JUMP) {
-            if (mario.getDir() == Mario.RIGHT)
-                currentFrame = marioJumpRight;
+        if (state == Mario.JUMP) {
+            if (dir == Mario.RIGHT)
+                currentFrame = marioJumpR;
             else
-                currentFrame = marioJumpLeft;
+                currentFrame = marioJumpL;
         }
-        else if (mario.getState() == Mario.WALK) {
-            if (mario.getDir() == Mario.RIGHT)
-                currentFrame = walkRight.getKeyFrame(stateTime, true);
+        else if (state == Mario.WALK) {
+            if (dir == Mario.RIGHT)
+                currentFrame = walkR.getKeyFrame(stateTime, true);
             else
-                currentFrame = walkLeft.getKeyFrame(stateTime, true);
+                currentFrame = walkL.getKeyFrame(stateTime, true);
         }
-        else if (mario.getState() == Mario.IDLE) {
-            if (mario.getDir() == Mario.RIGHT)
-                currentFrame = marioIdleRight;
+        else if (state == Mario.IDLE) {
+            if (dir == Mario.RIGHT)
+                currentFrame = marioIdleR;
             else
-                currentFrame = marioIdleLeft;
+                currentFrame = marioIdleL;
         }
         // Return animation
-        if (mario.getState() != Mario.JUMP) {
-            if (mario.getDir() == Mario.RIGHT && mario.getVel().x < 0)
-                currentFrame = marioReturnRight;
-            else if ((mario.getDir() == Mario.LEFT && mario.getVel().x > 0))
-                currentFrame = marioReturnLeft;
+        if (state != Mario.JUMP) {
+            if (dir == Mario.RIGHT && mario.getVel().x < 0)
+                currentFrame = marioReturnR;
+            else if ((dir == Mario.LEFT && mario.getVel().x > 0))
+                currentFrame = marioReturnL;
         }
-
         // FIXME mario meurt pas
         if (mario.getState() == Mario.DYING) {
             currentFrame = marioDies;
-            Gdx.app.log("eee", "eee");
         }
-
         tiledMapRenderer.getSpriteBatch().draw(currentFrame, mario.getPos().x, mario.getPos().y, 1, 1);
+
     }
 
     private void createAnimations() {
@@ -160,16 +157,16 @@ public class WorldRenderer {
             regionsLeft[i].flip(true, false);
         }
 
-        marioIdleRight = regionsRight[0];
-        marioIdleLeft = regionsLeft[0];
-        marioJumpRight = regionsRight[5];
-        marioJumpLeft = regionsLeft[5];
-        marioReturnRight = regionsRight[4];
-        marioReturnLeft = regionsLeft[4];
+        marioIdleR = regionsRight[0];
+        marioIdleL = regionsLeft[0];
+        marioJumpR = regionsRight[5];
+        marioJumpL = regionsLeft[5];
+        marioReturnR = regionsRight[4];
+        marioReturnL = regionsLeft[4];
         marioDies = regionsRight[6];
 
-        walkRight = new Animation(0.1f, regionsRight[0], regionsRight[1], regionsRight[2], regionsRight[3]);
-        walkLeft = new Animation(0.1f,  regionsLeft[0], regionsLeft[1], regionsLeft[2], regionsLeft[3]);
+        walkR = new Animation(0.1f, regionsRight[0], regionsRight[1], regionsRight[2], regionsRight[3]);
+        walkL = new Animation(0.1f,  regionsLeft[0], regionsLeft[1], regionsLeft[2], regionsLeft[3]);
 
     }
 

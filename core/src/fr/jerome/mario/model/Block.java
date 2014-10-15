@@ -16,10 +16,10 @@ public class Block {
 
     public Block(Vector2 pos) {
         this.position = pos;
+        this.rect.x = position.x;
+        this.rect.y = position.y;
         this.rect.width = SIZE;
         this.rect.height = SIZE;
-        this.rect.x = this.position.x;
-        this.rect.y = this.position.y;
     }
 
     public Vector2 getPosition() {
