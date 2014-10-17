@@ -1,10 +1,14 @@
 package fr.jerome.mario.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 /**
  * Représente le monde (un niveau)
@@ -13,10 +17,10 @@ import com.badlogic.gdx.utils.Array;
 public class World {
 
     private TiledMap tiledMap;
+    private TiledMapTileLayer layerMap;
     private int mapWidth;
     private int mapHeight;
-    private TiledMapTileLayer collisionLayer;
-    private Array<Pieces> piecesList;
+    private Array<Rectangle> pieces = new Array<Rectangle>();
 
     public  Mario mario;
 
@@ -26,13 +30,34 @@ public class World {
         mario = new Mario(new Vector2(3, 2), this);
     }
 
-    public void loadMap(String map) {
-        tiledMap = new TmxMapLoader().load("Maps/"+map+".tmx");
+    public void loadMap(String mapName) {
+
+        tiledMap = new TmxMapLoader().load("Maps/"+mapName+".tmx");
+        layerMap = (TiledMapTileLayer)tiledMap.getLayers().get("map");
         mapWidth = this.getTiledMap().getProperties().get("width", Integer.class);
         mapHeight = this.getTiledMap().getProperties().get("height", Integer.class);
-        collisionLayer = (TiledMapTileLayer)tiledMap.getLayers().get("collisions");
 
-//        for (int i = 0; i < collisionLayer.)
+
+        // Récupère les pièces dans une liste de Rectangle
+        for (int y = 0; y <= getMapHeight(); y++) {
+            for (int x = 0; x <= getMapWidth(); x++) {
+                TiledMapTileLayer.Cell cell = layerMap.getCell(x, y);
+                if (cell != null && cell.getTile().getProperties().containsKey("piece"))
+                    pieces.add(new Rectangle(x, y, 1, 1));
+            }
+        }
+
+        Gdx.app.log("nb pieces", " "+pieces.size);
+    }
+
+    public void recoltePiece(Rectangle piece, int index) {
+
+        pieces.removeIndex(index);
+        layerMap.getCell((int)piece.x, (int)piece.y).setTile(null);
+    }
+
+    public Array<Rectangle> getPieces() {
+        return pieces;
     }
 
     public TiledMap getTiledMap() {

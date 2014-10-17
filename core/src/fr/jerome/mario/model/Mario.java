@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Notre super héro de la saga
@@ -32,12 +33,14 @@ public class Mario {
     private Vector2 pos = new Vector2();
     private Vector2 vel = new Vector2();
     private Vector2 accel = new Vector2();
+    private Rectangle rect;
 
     private World world;
 
     public Mario(Vector2 pos, World w) {
         this.pos = pos;
         this.world = w;
+        this.rect = new Rectangle(pos.x, pos.y, 1, 1);
     }
 
     public void update(float deltaTime) {
@@ -50,7 +53,7 @@ public class Mario {
 
         if (accel.x < 0.01f && dir == RIGHT)
             vel.x *= FRICTION;
-        else if (accel.x > -0.01f && dir == LEFT)
+        else if (accel.x > - 0.01f && dir == LEFT)
             vel.x *= FRICTION;
 
         if (vel.x > WALK_MAX) {
@@ -82,6 +85,21 @@ public class Mario {
         else if (state == Mario.DYING)
             pos.y = 2;
 
+        rect.setPosition(pos);
+
+        pickPieces();
+    }
+
+    private void pickPieces() {
+
+        Array<Rectangle> alTmp = new Array<Rectangle>(world.getPieces());
+        int index = 0;
+        for (Rectangle p : world.getPieces()) {
+            if (rect.overlaps(p))
+                world.recoltePiece(p, index);
+
+            index++;
+        }
     }
 
     private void processKeys () {
