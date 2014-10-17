@@ -16,9 +16,7 @@ public class GameScreen implements Screen {
     private World world;
     private WorldRenderer worldRenderer;
 
-    private int score = 0;
-    private int life = 3;
-    private int pieces = 0;
+
 
     @Override
     public void show() {

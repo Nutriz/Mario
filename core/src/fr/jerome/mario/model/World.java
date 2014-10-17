@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 
+import fr.jerome.mario.screen.GameScreen;
+
 /**
  * Représente le monde (un niveau)
  * Created by jerome on 01/10/14.
@@ -23,6 +25,10 @@ public class World {
     private Array<Rectangle> pieces = new Array<Rectangle>();
 
     public  Mario mario;
+
+    private int score = 0;
+    private int life = 3;
+    private int nbPieces = 0;
 
     public World() {
 
@@ -46,14 +52,15 @@ public class World {
                     pieces.add(new Rectangle(x, y, 1, 1));
             }
         }
-
-        Gdx.app.log("nb pieces", " "+pieces.size);
     }
 
-    public void recoltePiece(Rectangle piece, int index) {
+    public void recoltePiece(int index) {
 
+        layerMap.getCell((int)pieces.get(index).x, (int)pieces.get(index).y).setTile(null);
         pieces.removeIndex(index);
-        layerMap.getCell((int)piece.x, (int)piece.y).setTile(null);
+        nbPieces++;
+        score += 10;
+        Gdx.app.log("nbPieces", ""+nbPieces);
     }
 
     public Array<Rectangle> getPieces() {

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 
 /**
  * Notre super héro de la saga
@@ -87,16 +86,15 @@ public class Mario {
 
         rect.setPosition(pos);
 
-        pickPieces();
+        pickPiece();
     }
 
-    private void pickPieces() {
+    private void pickPiece() {
 
-        Array<Rectangle> alTmp = new Array<Rectangle>(world.getPieces());
         int index = 0;
         for (Rectangle p : world.getPieces()) {
             if (rect.overlaps(p))
-                world.recoltePiece(p, index);
+                world.recoltePiece(index);
 
             index++;
         }
