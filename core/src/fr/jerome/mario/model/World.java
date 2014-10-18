@@ -8,8 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
-
 import fr.jerome.mario.screen.GameScreen;
 
 /**
@@ -18,53 +16,73 @@ import fr.jerome.mario.screen.GameScreen;
  */
 public class World {
 
+    private GameScreen game;
+
     private TiledMap tiledMap;
-    private TiledMapTileLayer layerMap;
+    private TiledMapTileLayer mapLayer;
+    private TiledMapTileLayer collisionsLayer;
     private int mapWidth;
     private int mapHeight;
     private Array<Rectangle> pieces = new Array<Rectangle>();
+    private Array<Rectangle> collision = new Array<Rectangle>();
 
     public  Mario mario;
 
-    private int score = 0;
-    private int life = 3;
-    private int nbPieces = 0;
+    public World(GameScreen gs) {
 
-    public World() {
-
+        game = gs;
         loadMap("level1");
         mario = new Mario(new Vector2(3, 2), this);
     }
 
     public void loadMap(String mapName) {
 
+        // Chargement de la tiledMap
         tiledMap = new TmxMapLoader().load("Maps/"+mapName+".tmx");
-        layerMap = (TiledMapTileLayer)tiledMap.getLayers().get("map");
+        // Masquer le layer de collision
+        tiledMap.getLayers().get("collisions").setVisible(false);
+
+        // Récupère la dimension de la map
         mapWidth = this.getTiledMap().getProperties().get("width", Integer.class);
         mapHeight = this.getTiledMap().getProperties().get("height", Integer.class);
 
+        // Récupère les layers
+        mapLayer = (TiledMapTileLayer)tiledMap.getLayers().get("map");
+        collisionsLayer = (TiledMapTileLayer)tiledMap.getLayers().get("collisions");
 
         // Récupère les pièces dans une liste de Rectangle
         for (int y = 0; y <= getMapHeight(); y++) {
             for (int x = 0; x <= getMapWidth(); x++) {
-                TiledMapTileLayer.Cell cell = layerMap.getCell(x, y);
+                TiledMapTileLayer.Cell cell = mapLayer.getCell(x, y);
                 if (cell != null && cell.getTile().getProperties().containsKey("piece"))
                     pieces.add(new Rectangle(x, y, 1, 1));
+            }
+        }
+
+        // Récupère les collisions dans une liste de Rectangle
+        for (int y = 0; y <= getMapHeight(); y++) {
+            for (int x = 0; x <= getMapWidth(); x++) {
+                TiledMapTileLayer.Cell cell = collisionsLayer.getCell(x, y);
+                if (cell != null && cell.getTile().getProperties().containsKey("collision"))
+                    collision.add(new Rectangle(x, y, 1, 1));
             }
         }
     }
 
     public void recoltePiece(int index) {
 
-        layerMap.getCell((int)pieces.get(index).x, (int)pieces.get(index).y).setTile(null);
+        mapLayer.getCell((int) pieces.get(index).x, (int) pieces.get(index).y).setTile(null);
         pieces.removeIndex(index);
-        nbPieces++;
-        score += 10;
-        Gdx.app.log("nbPieces", ""+nbPieces);
+        game.nbPieces++;
+        game.score += 10;
     }
 
     public Array<Rectangle> getPieces() {
         return pieces;
+    }
+
+    public Array<Rectangle> getCollision() {
+        return collision;
     }
 
     public TiledMap getTiledMap() {

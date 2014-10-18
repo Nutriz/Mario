@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -21,7 +22,8 @@ import fr.jerome.mario.model.World;
  */
 public class WorldRenderer {
 
-    private boolean debug = false;
+    private final boolean debug = false;
+    private final BitmapFont font;
 
     // Dimensions de la caméra
     private static final float CAMERA_WIDTH = 20;
@@ -51,6 +53,9 @@ public class WorldRenderer {
     private float stateTime = 0f;
 
     public WorldRenderer(World w) {
+
+        this.font = new BitmapFont();
+        this.font.setScale(0.01f);
 
         this.world = w;
         this.mario = world.mario;
@@ -101,38 +106,38 @@ public class WorldRenderer {
 
     private void renderMario() {
 
-        int dir = mario.getDir();
-        int state = mario.getState();
+        int dir = mario.dir;
+        int state = mario.state;
         TextureRegion currentFrame = null;
         stateTime += Gdx.graphics.getDeltaTime();
 
-        if (state == Mario.JUMP) {
+        if (state == mario.JUMP) {
             if (dir == Mario.RIGHT)
                 currentFrame = marioJumpR;
             else
                 currentFrame = marioJumpL;
         }
-        else if (state == Mario.WALK) {
+        else if (state == mario.WALK) {
             if (dir == Mario.RIGHT)
                 currentFrame = walkR.getKeyFrame(stateTime, true);
             else
                 currentFrame = walkL.getKeyFrame(stateTime, true);
         }
-        else if (state == Mario.IDLE) {
+        else if (state == mario.IDLE) {
             if (dir == Mario.RIGHT)
                 currentFrame = marioIdleR;
             else
                 currentFrame = marioIdleL;
         }
         // Return animation
-        if (state != Mario.JUMP) {
+        if (state != mario.JUMP) {
             if (dir == Mario.RIGHT && mario.getVel().x < 0)
                 currentFrame = marioReturnR;
             else if ((dir == Mario.LEFT && mario.getVel().x > 0))
                 currentFrame = marioReturnL;
         }
         // FIXME mario meurt pas
-        if (mario.getState() == Mario.DYING) {
+        if (mario.state == mario.DYING) {
             currentFrame = marioDies;
         }
         tiledMapRenderer.getSpriteBatch().draw(currentFrame, mario.getPos().x, mario.getPos().y, 1, 1);

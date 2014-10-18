@@ -16,6 +16,11 @@
    <properties>
     <property name="piece" value="1"/>
    </properties>
+   <animation>
+    <frame tileid="57" duration="500"/>
+    <frame tileid="58" duration="200"/>
+    <frame tileid="59" duration="200"/>
+   </animation>
   </tile>
  </tileset>
  <tileset firstgid="925" name="ennemis" tilewidth="16" tileheight="16">
@@ -28,7 +33,7 @@
   <image source="../Tilesets/collisions.png" width="64" height="16"/>
   <tile id="0">
    <properties>
-    <property name="collisions" value="1"/>
+    <property name="collision" value="1"/>
    </properties>
   </tile>
  </tileset>
@@ -37,9 +42,9 @@
    H4sIAAAAAAAAA+3DMQkAAAwDsDL/huquIvYmkF5SVVVVVVX1dSw744FwFwAA
   </data>
  </layer>
- <layer name="nuages" width="100" height="15">
+ <layer name="decor" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3TwQ2AIAwF0AamUDdR919B3UQ90SMnIqY/WPwv6QlCmt8iQl5tQWTXOoLt3daGKDJqTfEbb5eyy89OrUvrfpBxzd3WZs1q0VoB83jzdik7VK7InUTw1m8t5E4i5P32Phtr6Lwsd+kPs/X09zz1SkREREREfUk67rXqcBcAAA==
+   H4sIAAAAAAAAA+2TWw6CMBBFB1hB9UsNugiiJmpgV24V3Yn65SWBpImWCHT6kDnJ/aKZDPe0REKs1CnRDbmnds/6ZpURrZFNFsbsvu70bw/kibx+6HjIWd+c0NUZuTD4GDO7rzuuXjnvJAex7TsUzjvJgb7vv7uxDXdfNu/SHNzG9PZi2lWYD9vE9wZCRw4XFbJz5GQh7o00LsrWhwsnCvMLZClOPsg1D5UDJ6p1X4xwssfZA3KcsJuNGVyYXJQGJ1P/RWkeuly/OAm5M0EIjTfLuLnPcBcAAA==
   </data>
  </layer>
  <layer name="map" width="100" height="15">
@@ -47,7 +52,7 @@
    H4sIAAAAAAAAA+3TMQqAMAyF4RQnXZxdO+oNegrx/oexg0IUJ2maiv8HD7o15LUiAAAA5SXvAXBBH22hD3xZd2RSZy2qoKzW9roGkfEhW/CezF4U27eeVE593utgtNtklBruXdT6J3PuYvlxH6FivO4l9PE2O3dn7zJwFwAA
   </data>
  </layer>
- <layer name="collisions" width="100" height="15" opacity="0.21">
+ <layer name="collisions" width="100" height="15" opacity="0.45">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3TwQ2AMAgFUI6u4f5LOoC1UUMDSd9L/qkHWqARAAAA8M553PN0Tq5ufR3tQrc7rlLx3l16+1XVDu4+j9n/z05VXTGPv7kAUWcgQnAXAAA=
   </data>

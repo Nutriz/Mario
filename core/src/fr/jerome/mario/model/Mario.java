@@ -19,14 +19,14 @@ public class Mario {
     public static final int RIGHT = 1;
     public static final int LEFT = -1;
 
-    private int  state = IDLE;
-    private int  dir = RIGHT;
+    public int state = IDLE;
+    public int dir = RIGHT;
 
-    private static final float GRAVITY = -20;
-    private static final float JUMP_VEL = 14;
-    private static final float WALK_ACCEL = 20;
-    private static final float FRICTION = 0.90f;
-    private static final float WALK_MAX = 10;
+    private final float GRAVITY = -20;
+    private final float JUMP_VEL = 14;
+    private final float WALK_ACCEL = 20;
+    private final float FRICTION = 0.90f;
+    private final float WALK_MAX = 10;
 
     // Position x and y
     private Vector2 pos = new Vector2();
@@ -62,8 +62,18 @@ public class Mario {
             vel.x = -WALK_MAX;
         }
 
+        // sauvegarde de l'ancienne position
+        float oldX = pos.x;
+        float oldY = pos.y;
+
         // Modification de la position
         pos.mulAdd(vel, deltaTime);
+        rect.setPosition(pos);
+
+//        if (isCollision()) {
+//            pos.x = oldX;
+//            pos.y = oldY;
+//        }
 
         if (pos.x < 0)
             pos.x = 0;
@@ -84,9 +94,22 @@ public class Mario {
         else if (state == Mario.DYING)
             pos.y = 2;
 
-        rect.setPosition(pos);
 
         pickPiece();
+
+//        Gdx.app.log("collision", ""+isCollision());
+//        Gdx.app.log("lenght", ""+world.getCollision().size);
+
+    }
+
+    private boolean isCollision() {
+
+        for (Rectangle c : world.getCollision()) {
+            if (rect.overlaps(c))
+                return true;
+        }
+
+        return false;
     }
 
     private void pickPiece() {
@@ -127,27 +150,11 @@ public class Mario {
             state = Mario.DYING;
     }
 
-    public int getDir() {
-        return dir;
-    }
-
     public Vector2 getPos() {
         return pos;
     }
 
-    public int getState() {
-        return state;
-    }
-
     public Vector2 getVel() {
         return vel;
-    }
-
-    public Vector2 getAccel() {
-        return accel;
-    }
-
-    public static float getGravity() {
-        return GRAVITY;
     }
 }
