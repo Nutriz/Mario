@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
+import fr.jerome.mario.Assets;
 import fr.jerome.mario.model.World;
 import fr.jerome.mario.view.WorldRenderer;
 
@@ -24,8 +25,11 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
+        Assets.load();
+        Assets.manager.finishLoading();
         world = new World(this);
         worldRenderer = new WorldRenderer(world);
+
     }
 
     @Override

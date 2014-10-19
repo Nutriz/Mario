@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
+import fr.jerome.mario.Assets;
 import fr.jerome.mario.model.Mario;
 import fr.jerome.mario.model.World;
 
@@ -23,11 +24,11 @@ import fr.jerome.mario.model.World;
 public class WorldRenderer {
 
     private final boolean debug = false;
-    private final BitmapFont font;
 
     // Dimensions de la caméra
     private static final float CAMERA_WIDTH = 20;
     private static final float CAMERA_HEIGHT = 15;
+    private BitmapFont font;
 
     // Représentation du monde à afficher
     private World world;
@@ -111,44 +112,43 @@ public class WorldRenderer {
         TextureRegion currentFrame = null;
         stateTime += Gdx.graphics.getDeltaTime();
 
-        if (state == mario.JUMP) {
+        if (state == Mario.JUMP) {
             if (dir == Mario.RIGHT)
                 currentFrame = marioJumpR;
             else
                 currentFrame = marioJumpL;
         }
-        else if (state == mario.WALK) {
+        else if (state == Mario.WALK) {
             if (dir == Mario.RIGHT)
                 currentFrame = walkR.getKeyFrame(stateTime, true);
             else
                 currentFrame = walkL.getKeyFrame(stateTime, true);
         }
-        else if (state == mario.IDLE) {
+        else if (state == Mario.IDLE) {
             if (dir == Mario.RIGHT)
                 currentFrame = marioIdleR;
             else
                 currentFrame = marioIdleL;
         }
         // Return animation
-        if (state != mario.JUMP) {
+        if (state != Mario.JUMP) {
             if (dir == Mario.RIGHT && mario.getVel().x < 0)
                 currentFrame = marioReturnR;
             else if ((dir == Mario.LEFT && mario.getVel().x > 0))
                 currentFrame = marioReturnL;
         }
         // FIXME mario meurt pas
-        if (mario.state == mario.DYING) {
+        if (mario.state == Mario.DYING) {
             currentFrame = marioDies;
         }
         tiledMapRenderer.getSpriteBatch().draw(currentFrame, mario.getPos().x, mario.getPos().y, 1, 1);
-
     }
 
     private void createAnimations() {
 
         int nbImage = 14;
 
-        Texture marioTexturesRight = new Texture(Gdx.files.internal("Tilesets/Mario/marioLittle.png"));
+        Texture marioTexturesRight = Assets.manager.get(Assets.marioTexturesRight, Texture.class);
         TextureRegion[] regionsRight = new TextureRegion[nbImage];
         TextureRegion[] regionsLeft = new TextureRegion[nbImage];
 

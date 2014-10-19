@@ -16,11 +16,10 @@ Objectifs
 - [ ] Brick cassables et brick "?"
 - [ ] Système de vies
 - [ ] Ajout des ennemis
-  -[ ] Goomba
-  -[ ] Koopa
+  - [ ] Goomba
+  - [ ] Koopa
 - [ ] Mario boule de feu
 - [ ] Ecran d'acceuil, menu principal, écran game over
-
 Tester ?
 ----
 Android :

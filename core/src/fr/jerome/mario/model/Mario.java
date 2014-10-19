@@ -2,8 +2,11 @@ package fr.jerome.mario.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+
+import fr.jerome.mario.Assets;
 
 /**
  * Notre super héro de la saga
@@ -94,12 +97,7 @@ public class Mario {
         else if (state == Mario.DYING)
             pos.y = 2;
 
-
         pickPiece();
-
-//        Gdx.app.log("collision", ""+isCollision());
-//        Gdx.app.log("lenght", ""+world.getCollision().size);
-
     }
 
     private boolean isCollision() {
@@ -116,9 +114,10 @@ public class Mario {
 
         int index = 0;
         for (Rectangle p : world.getPieces()) {
-            if (rect.overlaps(p))
+            if (rect.overlaps(p)) {
                 world.recoltePiece(index);
-
+                Assets.manager.get(Assets.pceSFX, Sound.class).play();
+            }
             index++;
         }
     }
@@ -128,6 +127,7 @@ public class Mario {
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && state != JUMP) {
             state = JUMP;
             vel.y = JUMP_VEL;
+            Assets.manager.get(Assets.jumpSFX, Sound.class).play();
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {

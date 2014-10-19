@@ -6,8 +6,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 
+import fr.jerome.mario.Assets;
 import fr.jerome.mario.screen.GameScreen;
 
 /**
@@ -31,14 +33,14 @@ public class World {
     public World(GameScreen gs) {
 
         game = gs;
-        loadMap("level1");
+        loadMap((TiledMap)Assets.manager.get(Assets.level1));
         mario = new Mario(new Vector2(3, 2), this);
     }
 
-    public void loadMap(String mapName) {
+    public void loadMap(TiledMap tm) {
 
         // Chargement de la tiledMap
-        tiledMap = new TmxMapLoader().load("Maps/"+mapName+".tmx");
+        tiledMap = tm;
         // Masquer le layer de collision
         tiledMap.getLayers().get("collisions").setVisible(false);
 
