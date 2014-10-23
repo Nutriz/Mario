@@ -108,37 +108,37 @@ public class WorldRenderer {
     private void renderMario() {
 
         int dir = mario.dir;
-        int state = mario.state;
+        Mario.State state = mario.getState();
         TextureRegion currentFrame = null;
         stateTime += Gdx.graphics.getDeltaTime();
 
-        if (state == Mario.JUMP) {
+        if (state == Mario.State.JUMP) {
             if (dir == Mario.RIGHT)
                 currentFrame = marioJumpR;
             else
                 currentFrame = marioJumpL;
         }
-        else if (state == Mario.WALK) {
+        else if (state == Mario.State.WALK) {
             if (dir == Mario.RIGHT)
                 currentFrame = walkR.getKeyFrame(stateTime, true);
             else
                 currentFrame = walkL.getKeyFrame(stateTime, true);
         }
-        else if (state == Mario.IDLE) {
+        else if (state == Mario.State.IDLE) {
             if (dir == Mario.RIGHT)
                 currentFrame = marioIdleR;
             else
                 currentFrame = marioIdleL;
         }
         // Return animation
-        if (state != Mario.JUMP) {
+        if (state != Mario.State.JUMP) {
             if (dir == Mario.RIGHT && mario.getVel().x < 0)
                 currentFrame = marioReturnR;
             else if ((dir == Mario.LEFT && mario.getVel().x > 0))
                 currentFrame = marioReturnL;
         }
         // FIXME mario meurt pas
-        if (mario.state == Mario.DYING) {
+        if (state == Mario.State.DYING) {
             currentFrame = marioDies;
         }
         tiledMapRenderer.getSpriteBatch().draw(currentFrame, mario.getPos().x, mario.getPos().y, 1, 1);

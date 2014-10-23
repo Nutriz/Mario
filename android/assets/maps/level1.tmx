@@ -25,6 +25,11 @@
  </tileset>
  <tileset firstgid="925" name="ennemis" tilewidth="16" tileheight="16">
   <image source="../tilesets/enemies.png" width="808" height="128"/>
+  <tile id="50">
+   <properties>
+    <property name="ennemi" value="goomba"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="1325" name="objects" tilewidth="16" tileheight="16">
   <image source="../tilesets/items_Objects.png" width="576" height="336"/>
@@ -49,7 +54,7 @@
  </layer>
  <layer name="map" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3TMQqAMAyF4RQnXZxdO+oNegrx/oexg0IUJ2maiv8HD7o15LUiAAAA5SXvAXBBH22hD3xZd2RSZy2qoKzW9roGkfEhW/CezF4U27eeVE593utgtNtklBruXdT6J3PuYvlxH6FivO4l9PE2O3dn7zJwFwAA
+   H4sIAAAAAAAAA+3UOwqAMBBF0QlW2ljbptQdZBXixt2SKRTGoI3mJ94DD9JlmBciAgAAEJ8rPQBO6KMu9IEva/YM6qxZFcRV215nI9JfZDGlJ0vPStq37lQOrd9rl2i3LlFyCLu462QNP6uXRt/F9OM+TMaUupfQx9NseF8dzXAXAAA=
   </data>
  </layer>
  <layer name="collisions" width="100" height="15" opacity="0.45">

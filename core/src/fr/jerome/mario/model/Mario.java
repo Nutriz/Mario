@@ -15,15 +15,14 @@ import fr.jerome.mario.Assets;
  */
 public class Mario extends DynamicGameObject {
 
-    public static final int IDLE = 0;
-    public static final int WALK = 2;
-    public static final int JUMP = 3;
-    public static final int DYING = 4;
+    public static enum State {
+        IDLE, WALK, JUMP, DYING
+    }
 
     public static final int RIGHT = 1;
     public static final int LEFT = -1;
 
-    public int state = IDLE;
+    private State state = State.IDLE;
     public int dir = RIGHT;
 
     private final float GRAVITY = -20;
@@ -31,12 +30,6 @@ public class Mario extends DynamicGameObject {
     private final float WALK_ACCEL = 20;
     private final float FRICTION = 0.90f;
     private final float WALK_MAX = 10;
-
-    // Position x and y
-//    private Vector2 pos = new Vector2();
-//    private Vector2 vel = new Vector2();
-//    private Vector2 accel = new Vector2();
-//    private Rectangle rect;
 
     private World world;
 
@@ -65,16 +58,16 @@ public class Mario extends DynamicGameObject {
         }
 
         // Mario states for animations
-        if (pos.y <= 2 && state != Mario.DYING) {
+        if (pos.y <= 2 && state != State.DYING) {
             pos.y = 2;
 
             if (vel.x < 1f && dir == RIGHT)
-                state = Mario.IDLE;
+                state = State.IDLE;
             else if (vel.x > -1f && dir == LEFT)
-                state = Mario.IDLE;
+                state = State.IDLE;
 
-            if (state != Mario.WALK)
-                state = Mario.IDLE;
+            if (state != State.IDLE)
+                state = State.IDLE;
         }
 
         pickPiece();
@@ -149,8 +142,8 @@ public class Mario extends DynamicGameObject {
     private void processKeys () {
 
         // Jump
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) && state != JUMP) {
-            state = JUMP;
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && state != State.JUMP) {
+            state = State.JUMP;
             vel.y = JUMP_VEL;
             Assets.manager.get(Assets.jumpSFX, Sound.class).play();
         }
@@ -161,8 +154,8 @@ public class Mario extends DynamicGameObject {
             dir = RIGHT;
             accel.x = WALK_ACCEL * dir;
 
-            if (state != JUMP)
-                state = WALK;
+            if (state != State.JUMP)
+                state = State.WALK;
         }
 
         // Walk Left
@@ -171,10 +164,14 @@ public class Mario extends DynamicGameObject {
             dir = LEFT;
             accel.x = WALK_ACCEL * dir;
 
-            if (state != JUMP)
-                state = WALK;
+            if (state != State.JUMP)
+                state = State.WALK;
         }
 
+    }
+
+    public State getState() {
+        return state;
     }
 
     public Vector2 getPos() {
