@@ -3,6 +3,7 @@ package fr.jerome.mario.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -12,7 +13,7 @@ import fr.jerome.mario.Assets;
  * Notre super héro de la saga
  * Created by jerome on 01/10/14.
  */
-public class Mario {
+public class Mario extends DynamicGameObject {
 
     public static final int IDLE = 0;
     public static final int WALK = 2;
@@ -32,17 +33,16 @@ public class Mario {
     private final float WALK_MAX = 10;
 
     // Position x and y
-    private Vector2 pos = new Vector2();
-    private Vector2 vel = new Vector2();
-    private Vector2 accel = new Vector2();
-    private Rectangle rect;
+//    private Vector2 pos = new Vector2();
+//    private Vector2 vel = new Vector2();
+//    private Vector2 accel = new Vector2();
+//    private Rectangle rect;
 
     private World world;
 
     public Mario(Vector2 pos, World w) {
-        this.pos = pos;
+        super(pos.x, pos.y, 1, 1);
         this.world = w;
-        this.rect = new Rectangle(pos.x, pos.y, 1, 1);
     }
 
     public void update(float deltaTime) {
@@ -53,11 +53,8 @@ public class Mario {
 
         vel.add(accel.x, accel.y);
 
-        // Inertie de Mario
-        if (accel.x < 0.01f && dir == RIGHT)
-            vel.x *= FRICTION;
-        else if (accel.x > - 0.01f && dir == LEFT)
-            vel.x *= FRICTION;
+        // Modification de la position
+        move(deltaTime);
 
         // Limit la vitesse de mario
         if (vel.x > WALK_MAX) {
@@ -66,16 +63,6 @@ public class Mario {
         else if (vel.x < -WALK_MAX) {
             vel.x = -WALK_MAX;
         }
-
-        // Modification de la position
-        pos.mulAdd(vel, deltaTime);
-        rect.setPosition(pos);
-
-        // Limit mario à la map
-        if (pos.x < 0)
-            pos.x = 0;
-        else if (pos.x > world.getMapWidth()-1)
-            pos.x =  world.getMapWidth()-1;
 
         // Mario states for animations
         if (pos.y <= 2 && state != Mario.DYING) {
@@ -93,14 +80,58 @@ public class Mario {
         pickPiece();
     }
 
-    private boolean isCollision() {
+    private void move(float deltaTime) {
 
-        for (Rectangle c : world.getCollision()) {
-            if (rect.overlaps(c))
-                return true;
-        }
+        // Inertie de Mario
+        if (accel.x < 0.01f && dir == RIGHT)
+            vel.x *= FRICTION;
+        else if (accel.x > - 0.01f && dir == LEFT)
+            vel.x *= FRICTION;
 
-        return false;
+        Gdx.app.log("---", "");
+
+//        if (isCollisionY() && vel.y < 0) {
+//            vel.y = 0;
+//        }
+//        else if (isCollisionY() && vel.y > 0) {
+//            vel.y = 0;
+//        }
+
+        if (isCollisionX())
+            vel.x = 0;
+
+
+        Gdx.app.log("vel y", ""+vel.y);
+        Gdx.app.log("pos y", ""+pos.y);
+        pos.mulAdd(vel, deltaTime);
+        rect.setPosition(pos);
+
+        // Limit mario à la map
+        if (pos.x < 0)
+            pos.x = 0;
+        else if (pos.x > world.getMapWidth()-1)
+            pos.x =  world.getMapWidth()-1;
+
+    }
+
+    private boolean isCollisionY() {
+
+        boolean collisionY = false;
+
+        collisionY = world.getCollisionsLayer().getCell((int)pos.x, (int)pos.y) != null;
+
+        return collisionY;
+    }
+
+    private boolean isCollisionX() {
+
+        boolean collisionX = false;
+
+        collisionX= world.getCollisionsLayer().getCell((int)pos.x + 1, (int)pos.y) != null;
+        if (!collisionX)
+            collisionX= world.getCollisionsLayer().getCell((int)pos.x, (int)pos.y) != null;
+
+        return collisionX;
     }
 
     private void pickPiece() {

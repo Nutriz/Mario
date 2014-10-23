@@ -23,7 +23,7 @@ import fr.jerome.mario.model.World;
  */
 public class WorldRenderer {
 
-    private final boolean debug = false;
+    private final boolean debug = true;
 
     // Dimensions de la caméra
     private static final float CAMERA_WIDTH = 20;
@@ -184,21 +184,21 @@ public class WorldRenderer {
         TiledMap map = world.getTiledMap();
         int nbLayer = map.getLayers().getCount();
 
-        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Boucle pour passer dans chaque layer
-        for (int i = 0; i < nbLayer; i++) {
+//        for (int i = 0; i < 1; i++) {
 
             // Récupère layer par layer
-            TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(i);
+            TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(3);
 
             // Couleur différente pour chaque Layer
-            switch (i) {
-                case 0 : debugRenderer.setColor(new Color(0, 0, 0, 1)); break; // Ciel
-                case 1 : debugRenderer.setColor(new Color(1, 0.5f, 0.5f, 1)); break; // Nuages
-                case 2 : debugRenderer.setColor(new Color(0, 0, 1, 1)); break; // Map
-                case 3 : debugRenderer.setColor(new Color(0, 1, 1, 1)); break; // Collision
-            }
+//            switch (i) {
+                debugRenderer.setColor(new Color(0, 0, 0, 1));  // Ciel
+//                case 1 : debugRenderer.setColor(new Color(1, 0.5f, 0.5f, 1)); break; // Nuages
+//                case 2 : debugRenderer.setColor(new Color(0, 0, 1, 1)); break; // Map
+//                case 3 : debugRenderer.setColor(new Color(0, 1, 1, 1)); break; // Collision
+//            }
 
             // Boucle avec test si cell existe ou pas, traçage si existante
             for (int y = 0; y <= world.getMapHeight(); y++) {
@@ -211,7 +211,7 @@ public class WorldRenderer {
                     }
                 }
             }
-        }
+//        }
 
         // Mario
         debugRenderer.setColor(new Color(0.5f, 0.5f, 0.5f, 1));
@@ -219,7 +219,7 @@ public class WorldRenderer {
         debugRenderer.end();
 
         // TODO debugMode avec représentation des vecteur Pos, Vel et Accel en temps réel
-        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
         debugRenderer.setColor(new Color(1, 1, 1, 1));
 
 //        // Vecteur pos

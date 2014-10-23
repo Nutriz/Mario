@@ -26,7 +26,6 @@ public class World {
     private int mapWidth;
     private int mapHeight;
     private Array<Rectangle> pieces = new Array<Rectangle>();
-    private Array<Rectangle> collision = new Array<Rectangle>();
 
     public  Mario mario;
 
@@ -34,7 +33,7 @@ public class World {
 
         game = gs;
         loadMap((TiledMap)Assets.manager.get(Assets.level1));
-        mario = new Mario(new Vector2(3, 2), this);
+        mario = new Mario(new Vector2(3, 6), this);
     }
 
     public void loadMap(TiledMap tm) {
@@ -62,13 +61,13 @@ public class World {
         }
 
         // Récupère les collisions dans une liste de Rectangle
-        for (int y = 0; y <= getMapHeight(); y++) {
-            for (int x = 0; x <= getMapWidth(); x++) {
-                TiledMapTileLayer.Cell cell = collisionsLayer.getCell(x, y);
-                if (cell != null && cell.getTile().getProperties().containsKey("collision"))
-                    collision.add(new Rectangle(x, y, 1, 1));
-            }
-        }
+//        for (int y = 0; y <= getMapHeight(); y++) {
+//            for (int x = 0; x <= getMapWidth(); x++) {
+//                TiledMapTileLayer.Cell cell = collisionsLayer.getCell(x, y);
+//                if (cell != null && cell.getTile().getProperties().containsKey("collision"))
+//                    collision.add(new Rectangle(x, y, 1, 1));
+//            }
+//        }
     }
 
     public void recoltePiece(int index) {
@@ -83,8 +82,8 @@ public class World {
         return pieces;
     }
 
-    public Array<Rectangle> getCollision() {
-        return collision;
+    public TiledMapTileLayer getCollisionsLayer() {
+        return collisionsLayer;
     }
 
     public TiledMap getTiledMap() {
