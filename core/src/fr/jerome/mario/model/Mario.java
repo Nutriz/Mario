@@ -53,11 +53,13 @@ public class Mario {
 
         vel.add(accel.x, accel.y);
 
+        // Inertie de Mario
         if (accel.x < 0.01f && dir == RIGHT)
             vel.x *= FRICTION;
         else if (accel.x > - 0.01f && dir == LEFT)
             vel.x *= FRICTION;
 
+        // Limit la vitesse de mario
         if (vel.x > WALK_MAX) {
             vel.x = WALK_MAX;
         }
@@ -65,25 +67,18 @@ public class Mario {
             vel.x = -WALK_MAX;
         }
 
-        // sauvegarde de l'ancienne position
-        float oldX = pos.x;
-        float oldY = pos.y;
-
         // Modification de la position
         pos.mulAdd(vel, deltaTime);
         rect.setPosition(pos);
 
-//        if (isCollision()) {
-//            pos.x = oldX;
-//            pos.y = oldY;
-//        }
-
+        // Limit mario à la map
         if (pos.x < 0)
             pos.x = 0;
         else if (pos.x > world.getMapWidth()-1)
             pos.x =  world.getMapWidth()-1;
 
-        if (pos.y < 2 && state != Mario.DYING) {
+        // Mario states for animations
+        if (pos.y <= 2 && state != Mario.DYING) {
             pos.y = 2;
 
             if (vel.x < 1f && dir == RIGHT)
@@ -94,8 +89,6 @@ public class Mario {
             if (state != Mario.WALK)
                 state = Mario.IDLE;
         }
-        else if (state == Mario.DYING)
-            pos.y = 2;
 
         pickPiece();
     }
@@ -124,30 +117,33 @@ public class Mario {
 
     private void processKeys () {
 
+        // Jump
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && state != JUMP) {
             state = JUMP;
             vel.y = JUMP_VEL;
             Assets.manager.get(Assets.jumpSFX, Sound.class).play();
         }
 
+        // Walk Right
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            if (state != JUMP)
-                state = WALK;
 
             dir = RIGHT;
             accel.x = WALK_ACCEL * dir;
-        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             if (state != JUMP)
                 state = WALK;
+        }
+
+        // Walk Left
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 
             dir = LEFT;
             accel.x = WALK_ACCEL * dir;
+
+            if (state != JUMP)
+                state = WALK;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.K))
-            state = Mario.DYING;
     }
 
     public Vector2 getPos() {
