@@ -3,7 +3,6 @@ package fr.jerome.mario.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -81,7 +80,7 @@ public class Mario extends DynamicGameObject {
         else if (accel.x > - 0.01f && dir == LEFT)
             vel.x *= FRICTION;
 
-        Gdx.app.log("---", "");
+//        Gdx.app.log("---", "");
 
 //        if (isCollisionY() && vel.y < 0) {
 //            vel.y = 0;
@@ -94,8 +93,8 @@ public class Mario extends DynamicGameObject {
             vel.x = 0;
 
 
-        Gdx.app.log("vel y", ""+vel.y);
-        Gdx.app.log("pos y", ""+pos.y);
+//        Gdx.app.log("vel y", ""+vel.y);
+//        Gdx.app.log("pos y", ""+pos.y);
         pos.mulAdd(vel, deltaTime);
         rect.setPosition(pos);
 

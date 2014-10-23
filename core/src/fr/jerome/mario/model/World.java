@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 
 import fr.jerome.mario.Assets;
+import fr.jerome.mario.model.ennemis.Goomba;
+import fr.jerome.mario.model.ennemis.Koopa;
 import fr.jerome.mario.screen.GameScreen;
 
 /**
@@ -26,6 +28,8 @@ public class World {
     private int mapWidth;
     private int mapHeight;
     private Array<Rectangle> pieces = new Array<Rectangle>();
+    private Array<Goomba> goombas = new Array<Goomba>();
+    private Array<Koopa> koopas = new Array<Koopa>();
 
     public  Mario mario;
 
@@ -60,6 +64,8 @@ public class World {
             }
         }
 
+        generateEnnemis();
+
         // Récupère les collisions dans une liste de Rectangle
 //        for (int y = 0; y <= getMapHeight(); y++) {
 //            for (int x = 0; x <= getMapWidth(); x++) {
@@ -68,6 +74,27 @@ public class World {
 //                    collision.add(new Rectangle(x, y, 1, 1));
 //            }
 //        }
+    }
+
+    public void generateEnnemis() {
+
+        for (int y = 0; y <= getMapHeight(); y++) {
+            for (int x = 0; x <= getMapWidth(); x++) {
+                TiledMapTileLayer.Cell cell = mapLayer.getCell(x, y);
+                if (cell != null && cell.getTile().getProperties().containsKey("ennemi")) {
+
+                    // Gets the Goombas
+                    if (cell.getTile().getProperties().get("ennemi", String.class).equals("goomba"))
+                        goombas.add(new Goomba(x, y));
+                    // Gets the Koopas
+                    if (cell.getTile().getProperties().get("ennemi", String.class).equals("koopa"))
+                        koopas.add(new Koopa(x, y));
+
+                    // Delete the tile, ennemis must be rendered other way
+                    cell.setTile(null);
+                }
+            }
+        }
     }
 
     public void recoltePiece(int index) {
