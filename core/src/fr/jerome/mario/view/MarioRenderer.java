@@ -34,8 +34,8 @@ public class MarioRenderer {
 
         this.mario = mario;
         this.batch = batch;
-        createMarioAnimations();
 
+        createMarioAnimations();
     }
 
     private void createMarioAnimations() {
@@ -66,7 +66,6 @@ public class MarioRenderer {
 
         walkR = new Animation(0.1f, regionsRight[0], regionsRight[1], regionsRight[2], regionsRight[3]);
         walkL = new Animation(0.1f,  regionsLeft[0], regionsLeft[1], regionsLeft[2], regionsLeft[3]);
-
     }
 
     public void renderer(float stateTime) {
@@ -101,10 +100,11 @@ public class MarioRenderer {
             else if ((dir == Mario.LEFT && mario.getVel().x > 0))
                 currentFrame = marioReturnL;
         }
-        // FIXME mario meurt pas
+
         if (state == Mario.State.DYING) {
             currentFrame = marioDies;
         }
+
         batch.draw(currentFrame, mario.getPos().x, mario.getPos().y, 1, 1);
     }
 }

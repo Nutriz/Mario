@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import fr.jerome.mario.Assets;
+import fr.jerome.mario.MarioGame;
 
 /**
  * Notre super héro de la saga
@@ -35,8 +36,6 @@ public class Mario extends DynamicGameObject {
 
     public void update(float deltaTime) {
 
-        // FIXME state WALK n'est jamais appliqué
-
         processKeys();
         accel.y = World.GRAVITY;
         accel.scl(deltaTime);
@@ -62,15 +61,11 @@ public class Mario extends DynamicGameObject {
                 state = State.IDLE;
             else if (vel.x > -1f && dir == LEFT)
                 state = State.IDLE;
-
-            if (state != State.IDLE)
+            else if (state == State.JUMP)
                 state = State.IDLE;
         }
 
         pickPiece();
-
-        Gdx.app.log("state", ""+state);
-
     }
 
     private void move(float deltaTime) {
@@ -81,21 +76,6 @@ public class Mario extends DynamicGameObject {
         else if (accel.x > - 0.01f && dir == LEFT)
             vel.x *= FRICTION;
 
-//        Gdx.app.log("---", "");
-
-//        if (isCollisionY() && vel.y < 0) {
-//            vel.y = 0;
-//        }
-//        else if (isCollisionY() && vel.y > 0) {
-//            vel.y = 0;
-//        }
-
-        if (isCollisionX())
-            vel.x = 0;
-
-
-//        Gdx.app.log("vel y", ""+vel.y);
-//        Gdx.app.log("pos y", ""+pos.y);
         pos.mulAdd(vel, deltaTime);
         rect.setPosition(pos);
 
@@ -133,7 +113,7 @@ public class Mario extends DynamicGameObject {
         for (Rectangle p : world.getPieces()) {
             if (rect.overlaps(p)) {
                 world.recoltePiece(index);
-                Assets.manager.get(Assets.pceSFX, Sound.class).play();
+                Assets.manager.get(Assets.pceSFX, Sound.class).play(MarioGame.SOUND_VOLUME);
             }
             index++;
         }
@@ -145,7 +125,7 @@ public class Mario extends DynamicGameObject {
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && state != State.JUMP) {
             state = State.JUMP;
             vel.y = JUMP_VEL;
-            Assets.manager.get(Assets.jumpSFX, Sound.class).play();
+            Assets.manager.get(Assets.jumpSFX, Sound.class).play(MarioGame.SOUND_VOLUME);
         }
 
         // Walk Right

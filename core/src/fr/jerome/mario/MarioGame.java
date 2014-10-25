@@ -6,6 +6,8 @@ import fr.jerome.mario.screen.GameScreen;
 
 public class MarioGame extends Game {
 
+    public static final float SOUND_VOLUME = 0.2f;
+
 	@Override
 	public void create () {
 

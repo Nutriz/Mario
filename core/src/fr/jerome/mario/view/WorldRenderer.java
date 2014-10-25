@@ -3,17 +3,12 @@ package fr.jerome.mario.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
-import fr.jerome.mario.Assets;
 import fr.jerome.mario.model.Mario;
 import fr.jerome.mario.model.World;
 import fr.jerome.mario.model.enemies.Goomba;
@@ -29,7 +24,6 @@ public class WorldRenderer {
     // Dimensions de la caméra
     private static final float CAMERA_WIDTH = 20;
     private static final float CAMERA_HEIGHT = 15;
-    private BitmapFont font;
 
     // Représentation du monde à afficher
     private World world;
