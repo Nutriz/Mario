@@ -20,6 +20,7 @@ public class Assets {
 
     //Textures
     public static final String marioTexturesRight = "tilesets/mario/marioLittle.png";
+    public static final String enemiesTextures = "tilesets/enemies.png";
 
     // Audio
     public static final String jumpSFX = "audio/smb_jump-small.wav";
@@ -32,6 +33,7 @@ public class Assets {
 
         manager.load(level1, TiledMap.class);
         manager.load(marioTexturesRight, Texture.class);
+        manager.load(enemiesTextures, Texture.class);
         manager.load(pceSFX, Sound.class);
         manager.load(jumpSFX, Sound.class);
 

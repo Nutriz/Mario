@@ -1,4 +1,4 @@
-package fr.jerome.mario.model.ennemis;
+package fr.jerome.mario.model.enemies;
 
 import fr.jerome.mario.model.DynamicGameObject;
 

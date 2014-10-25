@@ -18,13 +18,9 @@ public class Mario extends DynamicGameObject {
         IDLE, WALK, JUMP, DYING
     }
 
-    public static final int RIGHT = 1;
-    public static final int LEFT = -1;
-
     private State state = State.IDLE;
     public int dir = RIGHT;
 
-    private final float GRAVITY = -20;
     private final float JUMP_VEL = 14;
     private final float WALK_ACCEL = 20;
     private final float FRICTION = 0.90f;
@@ -39,8 +35,10 @@ public class Mario extends DynamicGameObject {
 
     public void update(float deltaTime) {
 
+        // FIXME state WALK n'est jamais appliqué
+
         processKeys();
-        accel.y = GRAVITY;
+        accel.y = World.GRAVITY;
         accel.scl(deltaTime);
 
         vel.add(accel.x, accel.y);
@@ -70,6 +68,9 @@ public class Mario extends DynamicGameObject {
         }
 
         pickPiece();
+
+        Gdx.app.log("state", ""+state);
+
     }
 
     private void move(float deltaTime) {

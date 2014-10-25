@@ -59,7 +59,7 @@
  </layer>
  <layer name="map" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3UOwqAMBBF0QlW2ljbptQdZBXixq3cjykUxiCCko/iPfAgRSBhXogIAABAfK70BXBAH+9CH/iyakun1ppVQVxvm+toRNqTTKb0zdKzkvatO5Vd7efaJJqtS5Qcwi7CTubwk7qw3Njb+y6GH/dhMqbUuYQ+nmYFqNN2anAXAAA=
+   H4sIAAAAAAAAA+3TMQqAMAyF4RQnXZxdO+oNegrx/oexg0IUJ2maiv8HD7o15LUiAAAA5SXvAXBBH22hD3xZd2RSZy2qoKzW9roGkfEhW/CezF4U27eeVE593utgtNtklBruXdT6J3PuYvlxH6FivO4l9PE2O3dn7zJwFwAA
   </data>
  </layer>
  <layer name="collisions" width="100" height="15" opacity="0.45">
@@ -67,4 +67,7 @@
    H4sIAAAAAAAAA+3TwQ2AMAgFUI6u4f5LOoC1UUMDSd9L/qkHWqARAAAA8M553PN0Tq5ufR3tQrc7rlLx3l16+1XVDu4+j9n/z05VXTGPv7kAUWcgQnAXAAA=
   </data>
  </layer>
+ <objectgroup color="#ff0004" name="ennemis">
+  <object name="goomba" x="224" y="192" width="16" height="16"/>
+ </objectgroup>
 </map>

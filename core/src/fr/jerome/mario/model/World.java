@@ -1,17 +1,18 @@
 package fr.jerome.mario.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 
 import fr.jerome.mario.Assets;
-import fr.jerome.mario.model.ennemis.Goomba;
-import fr.jerome.mario.model.ennemis.Koopa;
+import fr.jerome.mario.model.enemies.Goomba;
+import fr.jerome.mario.model.enemies.Koopa;
 import fr.jerome.mario.screen.GameScreen;
 
 /**
@@ -32,6 +33,9 @@ public class World {
     private Array<Koopa> koopas = new Array<Koopa>();
 
     public  Mario mario;
+
+    public static final float GRAVITY = -20;
+
 
     public World(GameScreen gs) {
 
@@ -65,35 +69,28 @@ public class World {
         }
 
         generateEnnemis();
+    }
 
-        // Récupère les collisions dans une liste de Rectangle
-//        for (int y = 0; y <= getMapHeight(); y++) {
-//            for (int x = 0; x <= getMapWidth(); x++) {
-//                TiledMapTileLayer.Cell cell = collisionsLayer.getCell(x, y);
-//                if (cell != null && cell.getTile().getProperties().containsKey("collision"))
-//                    collision.add(new Rectangle(x, y, 1, 1));
-//            }
-//        }
+    public void update(float deltaTime) {
+
+        mario.update(deltaTime);
+        for (Goomba goomba : goombas)
+            goomba.update(deltaTime);
+
+        Gdx.app.log("gommbas pos", ""+goombas.get(0).pos.toString());
     }
 
     public void generateEnnemis() {
 
-        for (int y = 0; y <= getMapHeight(); y++) {
-            for (int x = 0; x <= getMapWidth(); x++) {
-                TiledMapTileLayer.Cell cell = mapLayer.getCell(x, y);
-                if (cell != null && cell.getTile().getProperties().containsKey("ennemi")) {
+        int unit = 16;
+        MapObjects objects = tiledMap.getLayers().get("ennemis").getObjects();
 
-                    // Gets the Goombas
-                    if (cell.getTile().getProperties().get("ennemi", String.class).equals("goomba"))
-                        goombas.add(new Goomba(x, y));
-                    // Gets the Koopas
-                    if (cell.getTile().getProperties().get("ennemi", String.class).equals("koopa"))
-                        koopas.add(new Koopa(x, y));
-
-                    // Delete the tile, ennemis must be rendered other way
-                    cell.setTile(null);
-                }
-            }
+        for (MapObject object : objects) {
+            RectangleMapObject rectObj = (RectangleMapObject) object;
+            if (rectObj.getName().equals("goomba"))
+                goombas.add(new Goomba(rectObj.getRectangle().x/unit, rectObj.getRectangle().y/unit));
+            if (rectObj.getName().equals("koopa"))
+                koopas.add(new Koopa(rectObj.getRectangle().x/unit, rectObj.getRectangle().y/unit));
         }
     }
 
@@ -103,6 +100,10 @@ public class World {
         pieces.removeIndex(index);
         game.nbPieces++;
         game.score += 10;
+    }
+
+    public Array<Goomba> getGoombas() {
+        return goombas;
     }
 
     public Array<Rectangle> getPieces() {

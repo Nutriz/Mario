@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Rectangle;
 import fr.jerome.mario.Assets;
 import fr.jerome.mario.model.Mario;
 import fr.jerome.mario.model.World;
+import fr.jerome.mario.model.enemies.Goomba;
 
 /**
  * Classe qui s'occupe d'afficher graphiquement World.java
@@ -23,7 +24,7 @@ import fr.jerome.mario.model.World;
  */
 public class WorldRenderer {
 
-    private final boolean debug = true;
+    private final boolean debug = false;
 
     // Dimensions de la caméra
     private static final float CAMERA_WIDTH = 20;
@@ -40,23 +41,11 @@ public class WorldRenderer {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     // Notre héro
     private Mario mario;
+    private MarioRenderer marioRenderer;
 
-    // Mario animations
-    private TextureRegion marioIdleR;
-    private TextureRegion marioIdleL;
-    private TextureRegion marioJumpR;
-    private TextureRegion marioJumpL;
-    private TextureRegion marioReturnR;
-    private TextureRegion marioReturnL;
-    private TextureRegion marioDies;
-    private Animation walkR;
-    private Animation walkL;
     private float stateTime = 0f;
 
     public WorldRenderer(World w) {
-
-        this.font = new BitmapFont();
-        this.font.setScale(0.01f);
 
         this.world = w;
         this.mario = world.mario;
@@ -66,13 +55,13 @@ public class WorldRenderer {
         // Load the map
         this.tiledMapRenderer = new OrthogonalTiledMapRenderer(world.getTiledMap(), 1/16f);
 
+        this.marioRenderer = new MarioRenderer(mario, tiledMapRenderer.getSpriteBatch());
+
         // caméra orthographic de 20x15 unités
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
         this.camera.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
         this.camera.update();
-
-        createAnimations();
     }
 
     // TODO Implémenter l'anti retour de la camera
@@ -93,11 +82,14 @@ public class WorldRenderer {
 
     public void render() {
 
+        stateTime += Gdx.graphics.getDeltaTime();
+
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
         tiledMapRenderer.getSpriteBatch().begin();
-            renderMario();
+            marioRenderer.renderer(stateTime);
+            renderEnnemies();
         tiledMapRenderer.getSpriteBatch().end();
 
         if (debug) drawDebug() ;
@@ -105,74 +97,12 @@ public class WorldRenderer {
         moveCamera();
     }
 
-    private void renderMario() {
+    private void renderEnnemies() {
 
-        int dir = mario.dir;
-        Mario.State state = mario.getState();
-        TextureRegion currentFrame = null;
-        stateTime += Gdx.graphics.getDeltaTime();
-
-        if (state == Mario.State.JUMP) {
-            if (dir == Mario.RIGHT)
-                currentFrame = marioJumpR;
-            else
-                currentFrame = marioJumpL;
+        for (Goomba goomba : world.getGoombas()) {
+            tiledMapRenderer.getSpriteBatch().draw(goomba.getCurrentTexture(),
+                    goomba.pos.x, goomba.pos.y, goomba.getWidth(), goomba.getHeight());
         }
-        else if (state == Mario.State.WALK) {
-            if (dir == Mario.RIGHT)
-                currentFrame = walkR.getKeyFrame(stateTime, true);
-            else
-                currentFrame = walkL.getKeyFrame(stateTime, true);
-        }
-        else if (state == Mario.State.IDLE) {
-            if (dir == Mario.RIGHT)
-                currentFrame = marioIdleR;
-            else
-                currentFrame = marioIdleL;
-        }
-        // Return animation
-        if (state != Mario.State.JUMP) {
-            if (dir == Mario.RIGHT && mario.getVel().x < 0)
-                currentFrame = marioReturnR;
-            else if ((dir == Mario.LEFT && mario.getVel().x > 0))
-                currentFrame = marioReturnL;
-        }
-        // FIXME mario meurt pas
-        if (state == Mario.State.DYING) {
-            currentFrame = marioDies;
-        }
-        tiledMapRenderer.getSpriteBatch().draw(currentFrame, mario.getPos().x, mario.getPos().y, 1, 1);
-    }
-
-    private void createAnimations() {
-
-        int nbImage = 14;
-
-        Texture marioTexturesRight = Assets.manager.get(Assets.marioTexturesRight, Texture.class);
-        TextureRegion[] regionsRight = new TextureRegion[nbImage];
-        TextureRegion[] regionsLeft = new TextureRegion[nbImage];
-
-        TextureRegion[][] tmp = TextureRegion.split(marioTexturesRight,
-                marioTexturesRight.getWidth()/nbImage,
-                marioTexturesRight.getHeight());
-
-        for (int i = 0; i < nbImage; i++) {
-            regionsRight[i] = tmp[0][i];
-            regionsLeft[i] = new TextureRegion(regionsRight[i]);
-            regionsLeft[i].flip(true, false);
-        }
-
-        marioIdleR = regionsRight[0];
-        marioIdleL = regionsLeft[0];
-        marioJumpR = regionsRight[5];
-        marioJumpL = regionsLeft[5];
-        marioReturnR = regionsRight[4];
-        marioReturnL = regionsLeft[4];
-        marioDies = regionsRight[6];
-
-        walkR = new Animation(0.1f, regionsRight[0], regionsRight[1], regionsRight[2], regionsRight[3]);
-        walkL = new Animation(0.1f,  regionsLeft[0], regionsLeft[1], regionsLeft[2], regionsLeft[3]);
-
     }
 
     public void drawDebug() {
@@ -213,9 +143,14 @@ public class WorldRenderer {
             }
 //        }
 
+        // Goomba
+        debugRenderer.setColor(new Color(0.8f, 0.8f, 0.1f, 1));
+        debugRenderer.rect(world.getGoombas().get(0).pos.x, world.getGoombas().get(0).pos.y, 1, 1);
+
         // Mario
         debugRenderer.setColor(new Color(0.5f, 0.5f, 0.5f, 1));
         debugRenderer.rect(mario.getPos().x, mario.getPos().y, 1, 1);
+
         debugRenderer.end();
 
         // TODO debugMode avec représentation des vecteur Pos, Vel et Accel en temps réel
