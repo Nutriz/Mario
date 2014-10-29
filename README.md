@@ -11,7 +11,7 @@ Objectifs
 - [x] Déplacements et sauts "réalistes" avec friction et gravité
 - [x] Animations de mario(sprite) suivant ses états : walk, jump...
 - [x] Collecte des pièces
-- [-] Collisions avec le level
+- [ ] Collisions avec le level
 - [ ] Mario grande taille (après champignon)
 - [ ] Brick cassables et brick "?"
 - [ ] Système de vies
@@ -20,9 +20,7 @@ Objectifs
   - [ ] Koopa
 - [ ] Mario boule de feu
 - [ ] Ecran d'acceuil, menu principal, écran game over
+
 Tester ?
 ----
-Android :
 Desktop : https://github.com/Jerome67000/Mario/blob/master/jar/desktop-1.0.jar
-WebGL :
-iOS :
