@@ -1,6 +1,6 @@
 Super Mario Bros (libGDX)
 =====
-img
+![My image](https://github.com/Jerome67000/Mario/blob/master/screenshots/capture1.png)
 Description
 ----
 Clone de Super Mario Bros (Nintendo nes) pour me familiariser avec libGDX et la création d'un petit jeu vidéo.
@@ -23,6 +23,6 @@ Objectifs
 Tester ?
 ----
 Android :
-Desktop :
+Desktop : https://github.com/Jerome67000/Mario/blob/master/jar/desktop-1.0.jar
 WebGL :
 iOS :
