@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import fr.jerome.mario.Assets;
 import fr.jerome.mario.MarioGame;
+import fr.jerome.mario.screen.GameScreen;
 
 /**
  * Notre super héro de la saga
@@ -116,7 +117,11 @@ public class Mario extends DynamicGameObject {
 
     public void update(float deltaTime) {
 
-        processKeys();
+        if (state == State.DYING) {
+            dying(deltaTime);
+        }
+        else
+            processKeys();
 
         accel.y = World.GRAVITY;
         accel.scl(deltaTime);
@@ -128,11 +133,13 @@ public class Mario extends DynamicGameObject {
         if (Math.abs(vel.x) > WALK_MAX)
             vel.x = Math.signum(vel.x) * WALK_MAX;
 
-        // Modification de la position
-        move(deltaTime);
-
         // Mario states for animations
-        if (vel.y <= 0  && state != State.DYING) {
+        if (pos.y < 0 && state != State.DYING) {
+            state = State.DYING;
+            Assets.manager.get(Assets.dieSFX, Sound.class).play(MarioGame.SOUND_VOLUME);
+            vel.y = JUMP_VEL*1.4f;
+        }
+        else if (grounded && state != State.DYING) {
 
             if (vel.x < 1f && dir == RIGHT)
                 state = State.IDLE;
@@ -141,6 +148,12 @@ public class Mario extends DynamicGameObject {
             else if (state == State.JUMP)
                 state = State.IDLE;
         }
+
+        // Modification de la position
+//        if (state != State.DYING)
+            move(deltaTime);
+//        else
+//            dying(deltaTime);
 
         pickPiece();
     }
@@ -189,6 +202,16 @@ public class Mario extends DynamicGameObject {
             }
             index++;
         }
+    }
+
+    private void dying(float deltaTime) {
+
+        accel.y = World.GRAVITY;
+        accel.scl(deltaTime);
+
+        // Incrémente la vitesse
+        vel.add(accel);
+        pos.mulAdd(vel, deltaTime);
     }
 
     public int getDir() {

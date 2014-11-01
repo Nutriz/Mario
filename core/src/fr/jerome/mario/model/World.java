@@ -1,11 +1,13 @@
 package fr.jerome.mario.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -43,14 +45,16 @@ public class World {
     public World(GameScreen gs) {
 
         game = gs;
-        loadMap((TiledMap)Assets.manager.get(Assets.level1));
+        loadMap();
         mario = new Mario(new Vector2(40, 6), this);
     }
 
-    public void loadMap(TiledMap tiledMap) {
+    public void loadMap() {
 
+        // FIXME reload map si pces récoltées
         // Chargement de la tiledMap
-        this.tiledMap = tiledMap;
+        Assets.manager.finishLoading();
+        this.tiledMap = Assets.manager.get(Assets.level1);
 
         // Récupère la dimension de la map
         mapWidth = this.getTiledMap().getProperties().get("width", Integer.class);
@@ -72,7 +76,6 @@ public class World {
                 }
             }
         }
-
         generateEnnemis();
     }
 
@@ -97,7 +100,7 @@ public class World {
 
         }
         // Supression du layer représentant les ennemis
-        tiledMap.getLayers().remove(tiledMap.getLayers().get("enemies"));
+//        tiledMap.getLayers().remove(tiledMap.getLayers().get("enemies"));
     }
 
     public void recoltePiece(int index) {

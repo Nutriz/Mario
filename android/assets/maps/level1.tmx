@@ -62,7 +62,7 @@
    H4sIAAAAAAAAA+3TSwqAIBSF4SuNagc9Rg5rB+5/YRkU3JoIFx8J/wcHmqjhuYoAAADkF1r/AF7o41/oAz0b7szqW/MqOS1OZI3ZXOaNO1LiXmHjpdysX4LKY4yzPxnnP7U2FEoN3y5qvZM93udh7CO1toc+XMW0OpfQhzUn7ecgHnAXAAA=
   </data>
  </layer>
- <objectgroup name="enemies">
+ <objectgroup name="enemies" visible="0">
   <object name="goomba" gid="975" x="704" y="208"/>
  </objectgroup>
 </map>

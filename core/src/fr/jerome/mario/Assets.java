@@ -25,6 +25,7 @@ public class Assets {
     // Audio
     public static final String jumpSFX = "audio/smb_jump-small.wav";
     public static final String pceSFX = "audio/smb_coin.wav";
+    public static final String dieSFX = "audio/smb_mariodie.wav";
 
 
     public static void load() {
@@ -36,6 +37,7 @@ public class Assets {
         manager.load(enemiesTextures, Texture.class);
         manager.load(pceSFX, Sound.class);
         manager.load(jumpSFX, Sound.class);
+        manager.load(dieSFX, Sound.class);
 
     }
 
