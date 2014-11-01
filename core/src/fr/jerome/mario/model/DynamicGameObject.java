@@ -38,11 +38,6 @@ public class DynamicGameObject {
         this.rect = new Rectangle(x, y, width, height);
     }
 
-    public void update(float deltaTime) {
-        pos.mulAdd(vel, deltaTime);
-        rect.setPosition(pos);
-    }
-
     public int getWidth() {
         return width;
     }

@@ -35,10 +35,10 @@ public class MarioRenderer {
         this.mario = mario;
         this.batch = batch;
 
-        createMarioAnimations();
+        createAnimations();
     }
 
-    private void createMarioAnimations() {
+    private void createAnimations() {
 
         int nbImage = 14;
 
@@ -70,7 +70,7 @@ public class MarioRenderer {
 
     public void renderer(float stateTime) {
 
-        int dir = mario.dir;
+        int dir = mario.getDir();
         Mario.State state = mario.getState();
         TextureRegion currentFrame = null;
         stateTime += Gdx.graphics.getDeltaTime();

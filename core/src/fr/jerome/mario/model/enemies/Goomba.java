@@ -1,7 +1,8 @@
 package fr.jerome.mario.model.enemies;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 import fr.jerome.mario.model.Enemies;
 import fr.jerome.mario.model.World;
@@ -15,41 +16,76 @@ public class Goomba extends Enemies {
     private static final int WIDTH = 1;
     private static final int HEIGHT = 1;
 
-    private static final int SPEED = 4;
+    private static final float SPEED = 2.5f;
 
-    private int dir = LEFT;
-
-    private TextureRegion currentTexture;
-
-    private TextureRegion idleR;
-    private TextureRegion idleL;
-
-    private Animation walkR;
-    private Animation walkL;
+    private Vector2 tmp;
 
     public Goomba(float posX, float posY) {
-        super(posX, posY, WIDTH, HEIGHT);
-        vel.x = SPEED;
+        super(posX, posY, WIDTH, HEIGHT, State.WALK, RIGHT);
+        vel.x = dir * SPEED;
         vel.y = World.GRAVITY;
-
-        currentTexture = getGoombaTexturesR()[1][1];
     }
 
-    public void update(float deltaTime) {
+    public void update(Array<Rectangle> collisions, float deltaTime) {
 
-        super.update(deltaTime);
+        // Vitesses avant collision
+        vel.x = dir * SPEED;
+        vel.y = World.GRAVITY/4;
 
-        if (pos.y <= 2)
+        // Prochaine position si pas de collision
+        tmp = new Vector2(pos);
+        tmp.mulAdd(vel, deltaTime);
+
+//        Gdx.app.log("tmp", tmp.toString());
+
+        if (rect.y <= 2) {
+            vel.y = 0;
             pos.y = 2;
-
-        if (pos.x > 30) {
-            vel.x *= -1;
-            dir = LEFT;
-            currentTexture = getGoombaTexturesL()[1][1];
         }
-    }
 
-    public TextureRegion getCurrentTexture() {
-        return currentTexture;
+        // Collision test
+        if (dir == RIGHT) {
+
+            rect.setPosition(tmp.x, tmp.y);
+
+            for (Rectangle rectColl : collisions) {
+                if (rect.overlaps(rectColl) && rect.x == rectColl.x) {
+                    dir = LEFT;
+                    vel.x = 0;
+//                    Gdx.app.log("coll", "right");
+                }
+            }
+        }
+        else if (dir == LEFT) {
+
+            rect.setPosition(tmp.x, tmp.y);
+
+            for (Rectangle rectColl : collisions) {
+                if (rect.overlaps(rectColl)) {
+                    dir = RIGHT;
+                    vel.x = 0;
+//                    Gdx.app.log("coll", "left");
+                }
+            }
+        }
+//        else if (!grounded) {
+//
+//            rect.setPosition(tmp.x, tmp.y);
+//
+//            for (Rectangle rectColl : collisions) {
+//                if (rect.overlaps(rectColl)) {
+//                    grounded = true;
+//                    vel.y = 0;
+//                    Gdx.app.log("coll", "ground");
+//                }
+//            }
+//        }
+
+
+        // Ajoute la velocité suivant les collisions
+        pos.mulAdd(vel, deltaTime);
+
+//        Gdx.app.log("pos goomba", "" +  Math.round(pos.x*100.0f)/100.0f + " " + Math.round(pos.y*100.0f)/100.0f);
+
     }
 }

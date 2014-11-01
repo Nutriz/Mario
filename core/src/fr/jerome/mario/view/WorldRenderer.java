@@ -36,6 +36,7 @@ public class WorldRenderer {
     // Notre héro
     private Mario mario;
     private MarioRenderer marioRenderer;
+    private EnemiesRenderer enemiesRenderer;
 
     private float stateTime = 0f;
 
@@ -50,6 +51,7 @@ public class WorldRenderer {
         this.tiledMapRenderer = new OrthogonalTiledMapRenderer(world.getTiledMap(), 1/16f);
 
         this.marioRenderer = new MarioRenderer(mario, tiledMapRenderer.getSpriteBatch());
+        this.enemiesRenderer = new EnemiesRenderer(world, tiledMapRenderer.getSpriteBatch());
 
         // caméra orthographic de 20x15 unités
         this.camera = new OrthographicCamera();
@@ -65,7 +67,6 @@ public class WorldRenderer {
         int mapWidth  = world.getTiledMap().getProperties().get("width", Integer.class);
         // nombres d'unités d'avance pour la caméra  par rapport à mario
         int decCam = 4;
-        float oldX = camera.position.x;
 
         // Suivre mario s'il avance et ne dépasse pas les dimensions de la map
         if (marioX > (CAMERA_WIDTH / 2f - decCam) && marioX < mapWidth - decCam - CAMERA_WIDTH / 2f)
@@ -82,21 +83,13 @@ public class WorldRenderer {
         tiledMapRenderer.render();
 
         tiledMapRenderer.getSpriteBatch().begin();
+            enemiesRenderer.renderer(stateTime);
             marioRenderer.renderer(stateTime);
-            renderEnnemies();
         tiledMapRenderer.getSpriteBatch().end();
 
         if (debug) drawDebug() ;
 
         moveCamera();
-    }
-
-    private void renderEnnemies() {
-
-        for (Goomba goomba : world.getGoombas()) {
-            tiledMapRenderer.getSpriteBatch().draw(goomba.getCurrentTexture(),
-                    goomba.pos.x, goomba.pos.y, goomba.getWidth(), goomba.getHeight());
-        }
     }
 
     public void drawDebug() {
@@ -111,54 +104,51 @@ public class WorldRenderer {
         debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // Boucle pour passer dans chaque layer
-//        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 1; i++) {
 
             // Récupère layer par layer
-            TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(3);
+            TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("map");
 
             // Couleur différente pour chaque Layer
-//            switch (i) {
-                debugRenderer.setColor(new Color(0, 0, 0, 1));  // Ciel
-//                case 1 : debugRenderer.setColor(new Color(1, 0.5f, 0.5f, 1)); break; // Nuages
-//                case 2 : debugRenderer.setColor(new Color(0, 0, 1, 1)); break; // Map
-//                case 3 : debugRenderer.setColor(new Color(0, 1, 1, 1)); break; // Collision
-//            }
+            switch (i) {
+                case 1:
+                    debugRenderer.setColor(new Color(0, 0, 0, 1));  // Ciel
+                case 2:
+                    debugRenderer.setColor(new Color(1, 0.5f, 0.5f, 1));
+                    break; // Nuages
+                case 3:
+                    debugRenderer.setColor(new Color(0, 0, 1, 1));
+                    break; // Map
+                case 4:
+                    debugRenderer.setColor(new Color(0, 1, 1, 1));
+                    break; // Collision
+            }
 
-            // Boucle avec test si cell existe ou pas, traçage si existante
+            // Boucle avec test si cell existe = traçage
             for (int y = 0; y <= world.getMapHeight(); y++) {
                 for (int x = 0; x <= world.getMapWidth(); x++) {
                     TiledMapTileLayer.Cell cell = layer.getCell(x, y);
                     if (cell != null) {
-                        Rectangle rect = new Rectangle();
-                        rect.set(x, y, 1, 1);
+                        Rectangle rect = new Rectangle(x, y, 1, 1);
                         debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
                     }
                 }
             }
-//        }
+        }
+
+        debugRenderer.setColor(new Color(1, 1, 1, 1));
+        for (Rectangle rect : world.getCollisions())
+            debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+
 
         // Goomba
         debugRenderer.setColor(new Color(0.8f, 0.8f, 0.1f, 1));
-        debugRenderer.rect(world.getGoombas().get(0).pos.x, world.getGoombas().get(0).pos.y, 1, 1);
+        for (Goomba goomba : world.getGoombas())
+            debugRenderer.rect(goomba.pos.x, goomba.pos.y, goomba.rect.width, goomba.rect.height);
 
         // Mario
         debugRenderer.setColor(new Color(0.5f, 0.5f, 0.5f, 1));
         debugRenderer.rect(mario.getPos().x, mario.getPos().y, 1, 1);
-
-        debugRenderer.end();
-
-        // TODO debugMode avec représentation des vecteur Pos, Vel et Accel en temps réel
-        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        debugRenderer.setColor(new Color(1, 1, 1, 1));
-
-//        // Vecteur pos
-//        debugRenderer.line(0, 0, mario.getPos().x, mario.getPos().y);
-//        // Vecteur vel
-//        Vector2 vecVel = new Vector2(mario.getVel());
-//        vecVel.scl(Gdx.graphics.getDeltaTime());
-//        debugRenderer.line(mario.getPos().x, mario.getPos().y, mario.getPos().x+vecVel.x, mario.getPos().y+vecVel.y);
-//        // Vecteur accel
-////        debugRenderer.line(0, 0, mario.getPos().x, mario.getPos().y);
 
         debugRenderer.end();
     }

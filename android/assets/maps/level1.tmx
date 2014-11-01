@@ -59,15 +59,10 @@
  </layer>
  <layer name="map" width="100" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3TMQqAMAyF4RQnXZxdO+oNegrx/oexg0IUJ2maiv8HD7o15LUiAAAA5SXvAXBBH22hD3xZd2RSZy2qoKzW9roGkfEhW/CezF4U27eeVE593utgtNtklBruXdT6J3PuYvlxH6FivO4l9PE2O3dn7zJwFwAA
+   H4sIAAAAAAAAA+3TSwqAIBSF4SuNagc9Rg5rB+5/YRkU3JoIFx8J/wcHmqjhuYoAAADkF1r/AF7o41/oAz0b7szqW/MqOS1OZI3ZXOaNO1LiXmHjpdysX4LKY4yzPxnnP7U2FEoN3y5qvZM93udh7CO1toc+XMW0OpfQhzUn7ecgHnAXAAA=
   </data>
  </layer>
- <layer name="collisions" width="100" height="15" opacity="0.45">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3TwQ2AMAgFUI6u4f5LOoC1UUMDSd9L/qkHWqARAAAA8M553PN0Tq5ufR3tQrc7rlLx3l16+1XVDu4+j9n/z05VXTGPv7kAUWcgQnAXAAA=
-  </data>
- </layer>
- <objectgroup color="#ff0004" name="ennemis">
-  <object name="goomba" x="224" y="192" width="16" height="16"/>
+ <objectgroup name="enemies">
+  <object name="goomba" gid="975" x="704" y="208"/>
  </objectgroup>
 </map>
