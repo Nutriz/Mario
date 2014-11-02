@@ -9,6 +9,10 @@ public class MarioGame extends Game {
 
     public static final float SOUND_VOLUME = 0.2f;
 
+    public int score = 0;
+    public int life = 3;
+    public int nbPieces = 0;
+
 	@Override
 	public void create () {
 
@@ -23,5 +27,8 @@ public class MarioGame extends Game {
     @Override
     public void dispose() {
 
+        Assets.dispose();
     }
+
+
 }

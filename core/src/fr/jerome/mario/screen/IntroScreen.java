@@ -1,16 +1,16 @@
 package fr.jerome.mario.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import fr.jerome.mario.Assets;
 import fr.jerome.mario.MarioGame;
 
 /**
+ * SplashScreen 3 sec, permet de charger les éléments de l'assetManager
  * Created by jerome on 01/11/14.
  */
 public class IntroScreen implements Screen {
@@ -28,6 +28,9 @@ public class IntroScreen implements Screen {
     @Override
     public void show() {
 
+        Assets.load();
+//        Assets.manager.finishLoading();
+
         intro = new Texture(Gdx.files.internal("images/splash.jpg"));
         batch = new SpriteBatch();
         batch.getProjectionMatrix().setToOrtho2D(0, 0, 432, 600);
@@ -42,9 +45,9 @@ public class IntroScreen implements Screen {
 
         time += delta;
 
-        if (time > 3) {
+        if (time > 0) {
             if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY) || Gdx.input.justTouched()) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new MenuScreen(game));
             }
         }
 

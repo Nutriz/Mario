@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import fr.jerome.mario.Assets;
+import fr.jerome.mario.MarioGame;
 import fr.jerome.mario.model.enemies.Goomba;
 import fr.jerome.mario.model.enemies.Koopa;
 import fr.jerome.mario.screen.GameScreen;
@@ -23,7 +24,7 @@ import fr.jerome.mario.screen.GameScreen;
  */
 public class World {
 
-    private GameScreen game;
+    private MarioGame game;
 
     private TiledMap tiledMap;
     private TiledMapTileLayer mapLayer;
@@ -42,9 +43,9 @@ public class World {
     public static final float GRAVITY = -14;
 
 
-    public World(GameScreen gs) {
+    public World(MarioGame mg) {
 
-        game = gs;
+        game = mg;
         loadMap();
         mario = new Mario(new Vector2(40, 6), this);
     }
